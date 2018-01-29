@@ -47,7 +47,7 @@ class PyQtlet(QObject):
         self._loadJavascript()
 
     def _loadJavascript(self):
-        with open(os.path.join(self._source_dir, 'web', 'modules', 'leaflet.js')) as jsSource:
+        with open(os.path.join(self._source_dir, 'web', 'modules', 'leaflet', 'leaflet.js')) as jsSource:
             leafletjs = jsSource.read()
         self._page.runJavaScript(leafletjs)
         with open(os.path.join(self._source_dir, 'web', 'map.js')) as jsSource:
