@@ -1,11 +1,10 @@
 import os
 import time
 
-from PyQt5.QtCore import QObject, QUrl, pyqtSignal
+from PyQt5.QtCore import QEventLoop, QObject, QUrl, pyqtSignal
 from PyQt5.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngineSettings, 
                                        QWebEngineScript )
 
-from .web import data
 from .map import Map
 
 
@@ -40,21 +39,19 @@ class PyQtlet(QObject):
         self._map = Map(self, self._page, 'webchannel')
 
     def _initialiseQtElements(self):
+        init_loop = QEventLoop()
         self._page.load(QUrl().fromLocalFile(os.path.join(self._source_dir, 'web', 'map.html')))
-        with open(os.path.join(self._source_dir, 'web', 'modules', 'leaflet.js')) as jsSource:
-            self.leafletjs = jsSource.read()
-        with open(os.path.join(self._source_dir, 'web', 'map.js')) as jsSource:
-            self.customjs = jsSource.read()
-        self._page.loadStarted.connect(self._pageLoadStart)
-        self._page.loadFinished.connect(self._pageLoadComplete)
+        self._page.loadFinished.connect(init_loop.quit)
+        init_loop.exec()
         self._widget.setPage(self._page)
+        self._loadJavascript()
 
-    def _pageLoadComplete(self):
-        print('Actually loaded')
-        self._loadFinished = True
-        self._page.runJavaScript(self.leafletjs)
-        self._page.runJavaScript(self.customjs)
-
-    def _pageLoadStart(self):
-        print('Load Started')
+    def _loadJavascript(self):
+        with open(os.path.join(self._source_dir, 'web', 'modules', 'leaflet.js')) as jsSource:
+            leafletjs = jsSource.read()
+        self._page.runJavaScript(leafletjs)
+        with open(os.path.join(self._source_dir, 'web', 'map.js')) as jsSource:
+            customjs = jsSource.read()
+        self._page.runJavaScript(customjs)
+        self._page.runJavaScript("""L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {maxZoom:20, subdomains:['mt0', 'mt1', 'mt2', 'mt3']}).addTo(map);""")
 

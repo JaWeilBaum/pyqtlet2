@@ -1,3 +1,5 @@
+import time
+
 from PyQt5.QtCore import QObject
 
 
@@ -10,20 +12,18 @@ class Map(QObject):
         self.webEnginePage = webEnginePage
         self.webChannel = webChannel
         self.pageLoaded = False
+        self.zoom = 10
 
-    def setView(self, coords):
-        if self._checkPageLoaded():
-            self.webEnginePage.runJavaScript('map.setView({coords});'.format(coords=coords))
+    def setView(self, latLng, zoom='', options=''):
+        js = 'map.setView({latLng}'.format(latLng=latLng);
+        if zoom:
+            js += ', {zoom}'.format(zoom=zoom)
+        if options:
+            js += ', {options}'.format(options=options)
+        js += ');'
+        print(js)
+        self.webEnginePage.runJavaScript(js)
 
     def addLayer(self, layer):
-        if self._checkPageLoaded():
-           self.webEnginePage.runJavaScript('map.addLayer("{layer}");'.format(layer=layer))
+        self.webEnginePage.runJavaScript('map.addLayer("{layer}");'.format(layer=layer))
 
-    def _checkPageLoaded(self):
-        if not self.pageLoaded:
-            while not self.parent.loadFinished:
-                print('page not yet loaded')
-                pass
-            self.pageLoaded = True
-            print('page loaded')
-        return self.pageLoaded

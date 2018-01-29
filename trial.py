@@ -7,12 +7,12 @@ from pyqtlet import PyQtlet
 class TrialWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.pyqtlet = PyQtlet()
-        self.setCentralWidget(self.pyqtlet.widget)
+        self.L = PyQtlet()
+        self.setCentralWidget(self.L.widget)
         self.show()
-        self.map = self.pyqtlet.map
-        self.map.addLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
-        #self.map.setView([51.505, -0.09])
+        self.map = self.L.map
+        #self.map.addLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
+        self.map.setView([12.97, 77.59], 1)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
