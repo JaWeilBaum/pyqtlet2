@@ -7,4 +7,5 @@ pyqtlet is a wrapper for Leaflet maps in PyQt5
 __author__ = 'Samarth Hattangady <samarth@skylarkdrones.com>'
 __version__ = '0.1'
 
-from .pyqtlet import PyQtlet
+from .mapwidget import MapWidget
+from .leaflet import L
