@@ -12,7 +12,7 @@ class TrialWindow(QMainWindow):
         self.map = L.map(self.mapWidget)
         self.map.addOSMBaseMap()
         #self.map.addLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
-        self.map.setView([12.97, 77.59], 1)
+        self.map.setView([12.97, 77.59], 10)
         self.show()
 
 if __name__ == '__main__':

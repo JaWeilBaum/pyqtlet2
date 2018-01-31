@@ -19,3 +19,7 @@ At a higher level, the functionality offered by v0.1 will be as follows:
 This version will __not__ be supporting styling or events.
 
 The further API documentation will be developed along with the code, but will resemble qt and leaflet API in style and design.
+
+Leaflet version: 1.3.1
+Leaflet.draw version: 1.0.2
+
