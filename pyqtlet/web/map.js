@@ -1,13 +1,22 @@
+function getDrawn() {
+    var layers = drawnItemsGroup.getLayers()
+    var drawnItems = []
+    for (var i=0; i<layers.length; i++) {
+        drawnItems.push(layers[i].toGeoJSON())
+    }
+    return JSON.stringify(drawnItems)
+}
+
 var map = L.map('map');
-var drawnItemsLayer = new L.FeatureGroup();
-map.addLayer(drawnItemsLayer)
+var drawnItemsGroup = new L.FeatureGroup();
+map.addLayer(drawnItemsGroup)
 var drawControl = new L.Control.Draw({
     edit: {
-        featureGroup: drawnItemsLayer
+        featureGroup: drawnItemsGroup
     }
 });
 map.addControl(drawControl);
 map.on(L.Draw.Event.CREATED, function (event) {
     var layer = event.layer;
-    drawnItemsLayer.addLayer(layer);
+    drawnItemsGroup.addLayer(layer);
 });

@@ -1,7 +1,8 @@
+import json
 import os
 import time
 
-from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QObject, QEventLoop, pyqtSignal, pyqtSlot
 
 from ... import mapwidget
 
@@ -9,6 +10,7 @@ class Map(QObject):
     """
     L.map equivalent in PyQtlet
     """
+    jsComplete = pyqtSignal()
 
     @property
     def mapWidget(self):
@@ -42,4 +44,19 @@ class Map(QObject):
 
     def addLayer(self, layer):
         self.webEnginePage.runJavaScript('map.addLayer("{layer}");'.format(layer=layer))
+
+    def getDrawn(self):
+        geo = self._getJsResponse('getDrawn();')
+        return json.loads(geo)
+
+    def _getJsResponse(self, js):
+        loop = QEventLoop()
+        self.jsComplete.connect(loop.quit)
+        self.mapWidget.page.runJavaScript(js, self._returnJs)
+        loop.exec()
+        return self.response
+
+    def _returnJs(self, response):
+        self.response = response
+        self.jsComplete.emit()
 
