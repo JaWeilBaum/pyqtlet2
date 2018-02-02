@@ -43,12 +43,17 @@ class Map(QObject):
         self.mapWidget.page.runJavaScript(osm)
 
     def addLayer(self, layer):
-        self.webEnginePage.runJavaScript('map.addLayer("{layer}");'.format(layer=layer))
+        jsObject = layer.leafletJsObject
+        js = 'map.addLayer({obj});'.format(obj=jsObject)
+        print(js)
+        self.mapWidget.page.runJavaScript(js)
 
     def getDrawn(self):
         geo = self._getJsResponse('getDrawn();')
         return json.loads(geo)
 
+    # This may cause issues if multiple calls are made at the same time
+    # since self.response would be shared. I am not sure how to eliminate this.
     def _getJsResponse(self, js):
         loop = QEventLoop()
         self.jsComplete.connect(loop.quit)

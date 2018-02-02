@@ -20,6 +20,7 @@ class TrialWindow(QMainWindow):
         self.map.addOSMBaseMap()
         #self.map.addLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
         self.map.setView([12.97, 77.59], 10)
+        self.map.addLayer(L.marker([12.97, 77.59], {'opacity': 0.7, 'title': 'Blore'}))
         self.show()
 
     def getDrawn(self):
