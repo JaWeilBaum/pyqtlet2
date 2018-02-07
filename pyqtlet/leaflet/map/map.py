@@ -2,31 +2,25 @@ import json
 import os
 import time
 
-from PyQt5.QtCore import QObject, QEventLoop, pyqtSignal, pyqtSlot
 
 from ... import mapwidget
+from ..core import Evented
 
-class Map(QObject):
+class Map(Evented):
     """
     L.map equivalent in PyQtlet
     """
-    jsComplete = pyqtSignal()
 
     @property
-    def mapWidget(self):
-        return self._mapWidget
+    def layers(self):
+        """
+        Instead of L.map.eachLayer
+        """
+        return self._layers
 
-    @mapWidget.setter
-    def mapWidget(self, mapWidget):
-        if not issubclass(type(mapWidget), mapwidget.MapWidget):
-            raise TypeError(('Expected mapWidget of type pyqtlet.MapWidget, '
-                            'received {type_}'.format(type_=type(mapWidget))))
-        self._mapWidget = mapWidget
-        
     def __init__(self, mapWidget):
-        super().__init__()
-        self.mapWidget = mapWidget
-        self.layers = []
+        super().__init__(mapWidget)
+        self._layers = []
 
     def setView(self, latLng, zoom='', options=''):
         js = 'map.setView({latLng}'.format(latLng=latLng);
@@ -35,33 +29,20 @@ class Map(QObject):
         if options:
             js += ', {options}'.format(options=options)
         js += ');'
-        print(js)
         self.mapWidget.page.runJavaScript(js)
-
-    def addOSMBaseMap(self):
-        osm = """L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(map)"""
-        self.mapWidget.page.runJavaScript(osm)
 
     def addLayer(self, layer):
-        jsObject = layer.leafletJsObject
-        js = 'map.addLayer({obj});'.format(obj=jsObject)
-        print(js)
+        self._layers.append(layer)
+        layer.map = self
+        js = 'map.addLayer({layerName})'.format(layerName=layer.layerName)
         self.mapWidget.page.runJavaScript(js)
 
-    def getDrawn(self):
-        geo = self._getJsResponse('getDrawn();')
-        return json.loads(geo)
-
-    # This may cause issues if multiple calls are made at the same time
-    # since self.response would be shared. I am not sure how to eliminate this.
-    def _getJsResponse(self, js):
-        loop = QEventLoop()
-        self.jsComplete.connect(loop.quit)
-        self.mapWidget.page.runJavaScript(js, self._returnJs)
-        loop.exec()
-        return self.response
-
-    def _returnJs(self, response):
-        self.response = response
-        self.jsComplete.emit()
+    def removeLayer(self, layer):
+        if layer not in self._layers:
+            # TODO Should we raise a ValueError here? Or just return
+            return
+        self._layers.remove(layer)
+        layer.map = None
+        js = 'map.removeLayer({layerName})'.format(layerName=layer.layerName)
+        self.mapWidget.page.runJavaScript(js)
 

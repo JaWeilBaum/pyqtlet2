@@ -8,6 +8,7 @@ function getDrawn() {
 }
 
 var map = L.map('map');
+/*
 var drawnItemsGroup = new L.FeatureGroup();
 map.addLayer(drawnItemsGroup)
 var drawControl = new L.Control.Draw({
@@ -20,3 +21,4 @@ map.on(L.Draw.Event.CREATED, function (event) {
     var layer = event.layer;
     drawnItemsGroup.addLayer(layer);
 });
+*/
