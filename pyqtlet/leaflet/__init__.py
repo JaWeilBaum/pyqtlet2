@@ -1,7 +1,8 @@
 from .map import Map
+from .layer import LayerGroup
 from .layer.tile import TileLayer
 from .layer.marker import Marker
-from .layer.vector import CircleMarker, Polygon, Polyline, Rectangle
+from .layer.vector import Circle, CircleMarker, Polygon, Polyline, Rectangle
 from .control import Control
 from .draw import Draw
 
@@ -11,5 +12,8 @@ class L:
     marker = Marker
     circleMarker = CircleMarker
     polyline = Polyline
-    polgyon = Polygon
+    polygon = Polygon
     rectangle = Rectangle
+    circle = Circle
+    layerGroup = LayerGroup
+

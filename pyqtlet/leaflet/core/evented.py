@@ -4,10 +4,10 @@ from ... import mapwidget
 
 class Evented(QObject):
     mapWidget = None
-    jsComplete = pyqtSignal()
 
     def __init__(self, mapWidget=None):
         super().__init__()
+        self.jsComplete = pyqtSignal()
         if Evented.mapWidget:
             return
         if mapWidget is None:
@@ -29,4 +29,8 @@ class Evented(QObject):
     def _returnJs(self, response):
         self.response = response
         self.jsComplete.emit()
+
+    def runJavaScript(self, js):
+        print(js)
+        self.mapWidget.page.runJavaScript(js)
 

@@ -29,13 +29,13 @@ class Map(Evented):
         if options:
             js += ', {options}'.format(options=options)
         js += ');'
-        self.mapWidget.page.runJavaScript(js)
+        self.runJavaScript(js)
 
     def addLayer(self, layer):
         self._layers.append(layer)
         layer.map = self
         js = 'map.addLayer({layerName})'.format(layerName=layer.layerName)
-        self.mapWidget.page.runJavaScript(js)
+        self.runJavaScript(js)
 
     def removeLayer(self, layer):
         if layer not in self._layers:
@@ -44,5 +44,5 @@ class Map(Evented):
         self._layers.remove(layer)
         layer.map = None
         js = 'map.removeLayer({layerName})'.format(layerName=layer.layerName)
-        self.mapWidget.page.runJavaScript(js)
+        self.runJavaScript(js)
 

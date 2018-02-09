@@ -1,21 +1,30 @@
 # pyqtlet
 
-pyqtlet is a wrapper for Leaflet maps in PyQt5
+pyqtlet is a wrapper for Leaflet maps in PyQt5. In construction and design, it mimics the [official leaflet api](http://leafletjs.com/reference-1.3.0.html) as much as possible.
+
+pyqtlet is currently in v0.1.0. The functionality that is supported can be found in the [api documentation](https://github.com/skylarkdrones/pyqtlet).
 
 ## Installation
 
 ``` bash
-# Not yet implemented
-pip3 install pyqtlet
+pip3 install PyQt5
+cd /path/to/project
+git clone https://github.com/skylarkdrones/pyqtlet.git
+```
+
+``` bash
+# To test whether it is successfully working
+python3 
+>>> from pyqtlet import L, MapWidget
+>>> # No errors
 ```
 
 ## Usage
 
-The library is designed to mimic the leafletjs api to whatever extent it makes sense. For more info, refer to philosohpy.md
 ``` python
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow
-from pyqtlet import MapWidget, L
+from pyqtlet import L, MapWidget
 
 
 class MapWindow(QMainWindow):
@@ -24,30 +33,19 @@ class MapWindow(QMainWindow):
         self.mapWidget = MapWidget()
         self.map = L.map(self.mapWidget)
         self.map.setView([12.97, 77.59], 10)
-        osmBaseMap = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
-        self.map.addLayer(osmBaseMap)
+        L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png').addTo(self.map)
+        L.marker([12.97, 77.59]).addTo(self.map)
+        self.setCentralWidget(self.mapWidget)
         self.show()
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    widget = MapWindow
+    widget = MapWindow()
     sys.exit(app.exec_())
 ```
-For full api spec, visit apidocs.
-
-## v0.1 spec
-
-`pyqtlet` has two classes:
-1. `pyqtlet.MapWidget` is a `QWebEngineView`, which is a type of `QWidget`. It will be manipulated like any other `QWidget` and can be added to layouts, stacks etc.
-2. `pyqtlet.L` is the python version of all supported leaflet features. It will support objects such as `L.map`, `L.tileLayer` etc. and will replicate the leafletjs api as much as possible.
-
 
 ## Versions
 Leaflet version: 1.3.1
 
 Leaflet.draw version: 1.0.2
-
-The further API documentation will be developed along with the code, but will resemble qt and leaflet API in style and design.
-
-This version will __not__ be supporting events.
 

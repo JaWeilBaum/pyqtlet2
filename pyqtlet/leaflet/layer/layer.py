@@ -34,4 +34,7 @@ class Layer(Evented):
         self._layerName = self.getNewLayerName()
         js = '{layerName} = {jsObject}'.format(layerName=self._layerName, 
                 jsObject=leafletJsObject)
-        self.mapWidget.page.runJavaScript(js)
+        self.runJavaScript(js)
+
+    def addTo(self, map_):
+        map_.addLayer(self)
