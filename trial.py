@@ -20,8 +20,10 @@ class TrialWindow(QMainWindow):
         self.baseLayer = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png')
         self.map.addLayer(self.baseLayer)
         self.map.setView([12.97, 77.59], 10)
-        self.marker = L.marker([12.97, 77.59], {'opacity': 0.7, 'title': 'Blore'})
+        self.marker = L.circleMarker([12.97, 77.59], {'opacity': 0.7, 'title': 'Blore'})
         self.map.addLayer(self.marker)
+        line = L.polyline([[12.97, 77.59],[12.96,77.60]], {'opacity': 1})
+        self.map.addLayer(line)
         self.show()
 
     def buttonPushed(self):
