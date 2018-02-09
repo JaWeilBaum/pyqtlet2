@@ -1,3 +1,4 @@
+// To place any js for prototyping
 function getDrawn() {
     var layers = drawnItemsGroup.getLayers()
     var drawnItems = []
@@ -6,11 +7,10 @@ function getDrawn() {
     }
     return JSON.stringify(drawnItems)
 }
-
+/*
 var map = L.map('map', {
     preferCanvas: true
 });
-/*
 var drawnItemsGroup = new L.FeatureGroup();
 map.addLayer(drawnItemsGroup)
 var drawControl = new L.Control.Draw({

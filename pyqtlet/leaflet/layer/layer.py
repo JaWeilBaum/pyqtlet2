@@ -32,7 +32,7 @@ class Layer(Evented):
 
     def createJsObject(self, leafletJsObject):
         self._layerName = self.getNewLayerName()
-        js = '{layerName} = {jsObject}'.format(layerName=self._layerName, 
+        js = 'var {layerName} = {jsObject}'.format(layerName=self._layerName, 
                 jsObject=leafletJsObject)
         self.runJavaScript(js)
 

@@ -18,9 +18,18 @@ class Map(Evented):
         """
         return self._layers
 
-    def __init__(self, mapWidget):
+    def __init__(self, mapWidget, options=None):
         super().__init__(mapWidget)
+        self.options = options
         self._layers = []
+        self._initJs()
+
+    def _initJs(self):
+        js = 'var map = L.map("map"'
+        if self.options:
+            js += ', {options}'.format(options=self.options)
+        js += ')'
+        self.runJavaScript(js)
 
     def setView(self, latLng, zoom='', options=''):
         js = 'map.setView({latLng}'.format(latLng=latLng);
