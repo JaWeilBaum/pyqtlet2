@@ -5,7 +5,10 @@ pyqtlet is a PyQt5 wrapper for [leaflet](leafletjs.com). v0.1 contains the basic
 All bool options for object creation need to be passed as string 'true' or 'false' values.
 
 ## L.map
-[Creation](http://leafletjs.com/reference-1.3.0.html#map-factory)
+[Creation](http://leafletjs.com/reference-1.3.0.html#map-factory): 
+```python
+self.map = L.map(self.mapWidget, options)
+```
 
 ~~[layers](http://leafletjs.com/reference-1.3.0.html#map-layers)~~
 ~~[renderer](http://leafletjs.com/reference-1.3.0.html#map-layers)~~
