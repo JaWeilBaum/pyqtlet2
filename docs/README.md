@@ -5,10 +5,12 @@ pyqtlet is a PyQt5 wrapper for [leaflet](leafletjs.com). v0.1 contains the basic
 All bool options for object creation need to be passed as string 'true' or 'false' values.
 
 ## L.map
-[Creation](http://leafletjs.com/reference-1.3.0.html#map-factory): 
 ```python
 self.map = L.map(self.mapWidget, options)
 ```
+In the js version, the first argument in the creation is the id of the div. In pyqtlet, this is repaced with the `mapWidget` object from `pyqtlet` which is a `QWebEngineView`, with a `QWebEnginePage`.
+
+[L.map](http://leafletjs.com/reference-1.3.0.html#map-factory): 
 
 ~~[layers](http://leafletjs.com/reference-1.3.0.html#map-layers)~~
 ~~[renderer](http://leafletjs.com/reference-1.3.0.html#map-layers)~~
