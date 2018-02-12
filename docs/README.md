@@ -13,8 +13,8 @@ In the js version, the first argument in the creation is the id of the div. In p
 [L.map](http://leafletjs.com/reference-1.3.0.html#map-factory)
 
 #### Unsupported Options
-~~[layers](http://leafletjs.com/reference-1.3.0.html#map-layers)~~
-~~[renderer](http://leafletjs.com/reference-1.3.0.html#map-layers)~~
+- ~~[layers](http://leafletjs.com/reference-1.3.0.html#map-layers)~~
+- ~~[renderer](http://leafletjs.com/reference-1.3.0.html#map-layers)~~
 
 ### Methods
 - [addLayer](http://leafletjs.com/reference-1.3.0.html#map-addlayer)
