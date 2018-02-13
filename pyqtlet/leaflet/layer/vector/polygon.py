@@ -10,5 +10,5 @@ class Polygon(Polyline):
         if self.options:
             leafletJsObject += ', {options}'.format(options=self.options)
         leafletJsObject += ')'
-        self.createJsObject(leafletJsObject)
+        self._createJsObject(leafletJsObject)
 

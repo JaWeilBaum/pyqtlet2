@@ -8,7 +8,7 @@ from PyQt5.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngin
 
 class MapWidget(QWebEngineView):
     """
-    The MapWidget class is a QWebEngineView that houses the leaflet map
+    The MapWidget class is a QWebEngineView that houses the leaflet map.
     Since it is a QWidget, it can be added to any QLayout.
     """
 

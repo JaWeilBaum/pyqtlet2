@@ -30,6 +30,7 @@ class TrialWindow(QMainWindow):
         self.show()
 
     def buttonPushed(self):
+        self.map.setMaxBounds(self.map.getBounds())
         self.map.removeLayer(self.layerGroup)
 
 if __name__ == '__main__':

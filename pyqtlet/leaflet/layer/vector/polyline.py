@@ -13,5 +13,5 @@ class Polyline(Path):
         if self.options:
             leafletJsObject += ', {options}'.format(options=self.options)
         leafletJsObject += ')'
-        self.createJsObject(leafletJsObject)
+        self._createJsObject(leafletJsObject)
 

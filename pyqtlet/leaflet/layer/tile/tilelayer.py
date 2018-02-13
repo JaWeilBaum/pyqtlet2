@@ -1,7 +1,7 @@
 from . import GridLayer
 
 class TileLayer(GridLayer):
-    def __init__(self, urlTemplate, options=''):
+    def __init__(self, urlTemplate, options=None):
         super().__init__()
         self.urlTemplate = urlTemplate
         self.options = options
@@ -12,4 +12,5 @@ class TileLayer(GridLayer):
         if self.options:
             leafletJsObject += ', {options}'.format(options=self.options)
         leafletJsObject += ')'
-        self.createJsObject(leafletJsObject)
+        self._createJsObject(leafletJsObject)
+

@@ -16,7 +16,7 @@ class LayerGroup(Layer):
 
     def _initJs(self):
         leafletJsObject = 'new L.layerGroup()'
-        self.createJsObject(leafletJsObject)
+        self._createJsObject(leafletJsObject)
 
     def addLayer(self, layer):
         self._layers.append(layer)

@@ -2,6 +2,8 @@ from ..core import Evented
 
 class Layer(Evented):
 
+    # layerId is a static variable shared between all layers
+    # It is used to give unique names to layers
     layerId = 0
 
     @property
@@ -25,16 +27,44 @@ class Layer(Evented):
         self._map = None
         self._layerName = ''
 
-    def getNewLayerName(self):
-        layerName = 'l{}'.format(self.layerId)
-        Layer.layerId += 1
-        return layerName
-
-    def createJsObject(self, leafletJsObject):
-        self._layerName = self.getNewLayerName()
+    def _createJsObject(self, leafletJsObject):
+        # Creates the js object on the mapWidget page
+        self._layerName = self._getNewLayerName()
         js = 'var {layerName} = {jsObject}'.format(layerName=self._layerName, 
                 jsObject=leafletJsObject)
         self.runJavaScript(js)
 
+    def _getNewLayerName(self):
+        layerName = 'l{}'.format(self.layerId)
+        Layer.layerId += 1
+        return layerName
+
     def addTo(self, map_):
         map_.addLayer(self)
+
+    def removeFrom(self, map_):
+        map_.removeLayer(self)
+
+    def bindPopup(self, content, options=None):
+        js = '{layerName}.bindPopup(content'.format(layerName=self._layerName)
+        if options:
+            js += ', {options}'.format(options)
+        js += ')'
+        self.runJavaScript(js)
+        
+    def unbindPopup(self):
+        js = '{layerName}.unbindPopup()'.format(layerName=self._layerName)
+        self.runJavaScript(js)
+
+    def bindTooltip(self, content, options=None):
+        js = '{layerName}.bindTooltip(content'.format(layerName=self._layerName)
+        if options:
+            js += ', {options}'.format(options)
+        js += ')'
+        self.runJavaScript(js)
+        
+    def unbindTooltip(self):
+        js = '{layerName}.unbindTooltip()'.format(layerName=self._layerName)
+        self.runJavaScript(js)
+
+

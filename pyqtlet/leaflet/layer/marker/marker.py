@@ -12,5 +12,14 @@ class Marker(Layer):
         if self.options:
             leafletJsObject += ', {options}'.format(options=self.options)
         leafletJsObject += ')'
-        self.createJsObject(leafletJsObject)
+        self._createJsObject(leafletJsObject)
 
+    def setLatLng(self, latLng):
+        js = '{layerName}.setLatLng({latLng})'.format(
+                layerName=self._layerName, latLng=latLng)
+        self.runJavaScript(js)
+
+    def setOpacity(self, opacity):
+        js = '{layerName}.setOpacity({latLng})'.format(
+                layerName=self._layerName, opacity=opacity)
+        self.runJavaScript(js)
