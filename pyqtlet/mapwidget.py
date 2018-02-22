@@ -2,6 +2,7 @@ import os
 import time
 
 from PyQt5.QtCore import QEventLoop, QObject, QUrl, pyqtSignal
+from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngineSettings, 
                                        QWebEngineScript )
 
@@ -24,7 +25,8 @@ class MapWidget(QWebEngineView):
         super().__init__()
         self._page = QWebEnginePage()
         self.setPage(self._page)
-        self._channel = 'set web channel'
+        self._channel = QWebChannel()
+        self._page.setWebChannel(self._channel)
         self._loadPage()
         # TODO Link channel to page
 

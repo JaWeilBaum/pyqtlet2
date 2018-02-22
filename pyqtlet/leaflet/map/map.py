@@ -2,6 +2,7 @@ import json
 import os
 import time
 
+from PyQt5.QtCore import pyqtSlot
 
 from ... import mapwidget
 from ..core import Evented
@@ -30,6 +31,17 @@ class Map(Evented):
             js += ', {options}'.format(options=self.options)
         js += ')'
         self.runJavaScript(js)
+        js = 'var mapObject = null; \
+              new QWebChannel(qt.webChannelTransport, function(c) { \
+                  mapObject = c.objects.mapObject;\
+              });'
+        self.runJavaScript(js)
+        js = 'map.on("click", function(e){mapObject.printCoords(e.latlng)});'
+        self.runJavaScript(js)
+
+    @pyqtSlot(dict)
+    def printCoords(self, coords):
+        print(coords)
 
     def setView(self, latLng, zoom=None, options=None):
         js = 'map.setView({latLng}'.format(latLng=latLng);
