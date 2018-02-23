@@ -15,6 +15,10 @@ class Layer(Evented):
         self._layerName = name
 
     @property
+    def jsName(self):
+        return self._layerName
+
+    @property
     def map(self):
         return self._map
 
@@ -25,14 +29,7 @@ class Layer(Evented):
     def __init__(self):
         super().__init__()
         self._map = None
-        self._layerName = ''
-
-    def _createJsObject(self, leafletJsObject):
-        # Creates the js object on the mapWidget page
         self._layerName = self._getNewLayerName()
-        js = 'var {layerName} = {jsObject}'.format(layerName=self._layerName, 
-                jsObject=leafletJsObject)
-        self.runJavaScript(js)
 
     def _getNewLayerName(self):
         layerName = 'l{}'.format(self.layerId)

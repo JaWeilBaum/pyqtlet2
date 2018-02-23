@@ -1,3 +1,5 @@
+import logging
+
 from PyQt5.QtCore import QObject, QEventLoop, pyqtSignal
 
 from ... import mapwidget
@@ -12,6 +14,7 @@ class Evented(QObject):
 
     def __init__(self, mapWidget=None):
         super().__init__()
+        self._logger = logging.getLogger(__name__)
         if Evented.mapWidget:
             return
         if mapWidget is None:
@@ -20,6 +23,11 @@ class Evented(QObject):
             raise TypeError(('Expected mapWidget of type pyqtlet.MapWidget, '
                             'received {type_}'.format(type_=type(mapWidget))))
         Evented.mapWidget = mapWidget
+        js = ('var channelObjects = null;'
+              'new QWebChannel(qt.webChannelTransport, function(channel) {'
+              '    channelObjects = channel.objects;'
+              '});')
+        self.runJavaScript(js)
 
     # TODO
     # This may cause issues if multiple calls are made at the same time
@@ -39,6 +47,13 @@ class Evented(QObject):
         self._jsComplete.emit()
 
     def runJavaScript(self, js):
-        # TODO Do we need loop here as well?
+        self._logger.debug('Running JS: {js}'.format(js=js))
+        # TODO Do we need exec loop here as well?
         self.mapWidget.page.runJavaScript(js)
+
+    def _createJsObject(self, leafletJsObject):
+        # Creates the js object on the mapWidget page
+        js = 'var {name} = {jsObject}'.format(name=self.jsName, 
+                jsObject=leafletJsObject)
+        self.runJavaScript(js)
 

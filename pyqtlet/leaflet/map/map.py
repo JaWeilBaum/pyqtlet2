@@ -19,25 +19,23 @@ class Map(Evented):
         """
         return self._layers
 
+    @property
+    def jsName(self):
+        return self._jsName
+
     def __init__(self, mapWidget, options=None):
         super().__init__(mapWidget)
         self.options = options
         self._layers = []
+        self._jsName = 'map'
         self._initJs()
 
     def _initJs(self):
-        js = 'var map = L.map("map"'
+        jsObject = 'L.map("map"'
         if self.options:
-            js += ', {options}'.format(options=self.options)
-        js += ')'
-        self.runJavaScript(js)
-        js = 'var mapObject = null; \
-              new QWebChannel(qt.webChannelTransport, function(c) { \
-                  mapObject = c.objects.mapObject;\
-              });'
-        self.runJavaScript(js)
-        js = 'map.on("click", function(e){mapObject.printCoords(e.latlng)});'
-        self.runJavaScript(js)
+            jsObject += ', {options}'.format(options=self.options)
+        jsObject += ')'
+        self._createJsObject(jsObject)
 
     @pyqtSlot(dict)
     def printCoords(self, coords):
