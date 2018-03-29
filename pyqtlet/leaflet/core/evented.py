@@ -56,4 +56,16 @@ class Evented(QObject):
         js = 'var {name} = {jsObject}'.format(name=self.jsName, 
                 jsObject=leafletJsObject)
         self.runJavaScript(js)
+        # register the object in the channel
+        self.mapWidget.channel.registerObject(
+                '{name}Object'.format(name=self.jsName), self)
+
+    def _connectEventToSignal(self, event, signalEmitter):
+        # We need to delete some keys as they are causing circular structures
+        js = '{name}.on("{event}", function(e) {{\
+                  delete e.target;\
+                  delete e.sourceTarget;\
+                  channelObjects.{name}Object.{signalEmitter}(e)}})'.format(
+            name=self.jsName, event=event, signalEmitter=signalEmitter)
+        self.runJavaScript(js)
 

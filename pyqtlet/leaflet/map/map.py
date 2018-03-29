@@ -1,8 +1,9 @@
 import json
+import logging
 import os
 import time
 
-from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtCore import pyqtSlot, pyqtSignal
 
 from ... import mapwidget
 from ..core import Evented
@@ -11,6 +12,8 @@ class Map(Evented):
     """
     L.map equivalent in PyQtlet
     """
+
+    clicked = pyqtSignal(dict)
 
     @property
     def layers(self):
@@ -23,12 +26,19 @@ class Map(Evented):
     def jsName(self):
         return self._jsName
 
+    @pyqtSlot(dict)
+    def onClick(self, event):
+        self._logger.debug('map clicked. event: {event}'.format(event=event))
+        self.clicked.emit(event)
+
     def __init__(self, mapWidget, options=None):
         super().__init__(mapWidget)
+        self._logger = logging.getLogger(__name__)
         self.options = options
         self._layers = []
         self._jsName = 'map'
         self._initJs()
+        self._connectEventToSignal('click', 'onClick')
 
     def _initJs(self):
         jsObject = 'L.map("map"'
