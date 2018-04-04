@@ -1,8 +1,34 @@
 import logging
 
-from PyQt5.QtCore import QObject, QEventLoop, pyqtSignal
+from PyQt5.QtCore import QObject, QEventLoop, pyqtSignal, pyqtSlot, QThread
 
 from ... import mapwidget
+
+
+class JsThread(QThread):
+    jsComplete = pyqtSignal()
+    def __init__(self, page, js=None):
+        super().__init__()
+        self.page = page
+        self.js = js
+        self.response = None
+        self._logger = logging.getLogger(__name__)
+
+    def _jsResponse(self, response):
+        self._logger.debug('jsthread got response: {response}'.format(response=response))
+        self.response = response
+        self.jsComplete.emit()
+
+    def setJs(self, js):
+        self.js = js
+
+    def run(self):
+        loop = QEventLoop()
+        self._logger.debug('running jsthread: {js}'.format(js=self.js))
+        self.jsComplete.connect(loop.quit)
+        self.page.runJavaScript(self.js, self._jsResponse)
+        loop.exec()
+
 
 class Evented(QObject):
     '''
@@ -15,6 +41,7 @@ class Evented(QObject):
     def __init__(self, mapWidget=None):
         super().__init__()
         self._logger = logging.getLogger(__name__)
+        self.response = None
         if Evented.mapWidget:
             return
         if mapWidget is None:
@@ -23,32 +50,24 @@ class Evented(QObject):
             raise TypeError(('Expected mapWidget of type pyqtlet.MapWidget, '
                             'received {type_}'.format(type_=type(mapWidget))))
         Evented.mapWidget = mapWidget
+        self.jsThread = JsThread(self.mapWidget.page,'')
         js = ('var channelObjects = null;'
               'new QWebChannel(qt.webChannelTransport, function(channel) {'
               '    channelObjects = channel.objects;'
               '});')
         self.runJavaScript(js)
 
-    # TODO
-    # This may cause issues if multiple calls are made at the same time
-    # since self.response and self._jsComplete would be shared. 
-    # I am not sure how to eliminate this.
     def getJsResponse(self, js):
-        # We need a loop to force the execution to be sychronous
-        # TODO Fix bug if runJavaScript executes before loop.exec begins
-        loop = QEventLoop()
-        self._jsComplete.connect(loop.quit)
-        self.mapWidget.page.runJavaScript(js, self._returnJs)
-        loop.exec()
-        return self.response
-
-    def _returnJs(self, response):
-        self.response = response
-        self._jsComplete.emit()
+        # We create a thread that runs the code, waits for the response
+        # and then saves it in the thread
+        # NOTE: I'm not sure why this doesn't need an eventloop, and how
+        # the response comes...
+        self.jsThread.setJs(js)
+        self.jsThread.start()
+        return self.jsThread.response
 
     def runJavaScript(self, js):
         self._logger.debug('Running JS: {js}'.format(js=js))
-        # TODO Do we need exec loop here as well?
         self.mapWidget.page.runJavaScript(js)
 
     def _createJsObject(self, leafletJsObject):

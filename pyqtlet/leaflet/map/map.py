@@ -14,6 +14,7 @@ class Map(Evented):
     """
 
     clicked = pyqtSignal(dict)
+    zoomend = pyqtSignal(dict)
 
     @property
     def layers(self):
@@ -31,14 +32,21 @@ class Map(Evented):
         self._logger.debug('map clicked. event: {event}'.format(event=event))
         self.clicked.emit(event)
 
+    @pyqtSlot(dict)
+    def onZoomend(self, event):
+        self._logger.debug('map zoomend. event: {event}'.format(event=event))
+        self.zoomend.emit(event)
+
     def __init__(self, mapWidget, options=None):
         super().__init__(mapWidget)
         self._logger = logging.getLogger(__name__)
         self.options = options
         self._layers = []
+        self._controls = []
         self._jsName = 'map'
         self._initJs()
         self._connectEventToSignal('click', 'onClick')
+        self._connectEventToSignal('zoomend', 'onZoomend')
 
     def _initJs(self):
         jsObject = 'L.map("map"'
@@ -73,6 +81,21 @@ class Map(Evented):
         self._layers.remove(layer)
         layer.map = None
         js = 'map.removeLayer({layerName})'.format(layerName=layer.layerName)
+        self.runJavaScript(js)
+
+    def addControl(self, control):
+        self._controls.append(control)
+        control.map = self
+        js = 'map.addControl({controlName})'.format(controlName=control.controlName)
+        self.runJavaScript(js)
+
+    def removeControl(self, control):
+        if control not in self._controls:
+            # TODO Should we raise a ValueError here? Or just return
+            return
+        self._controls.remove(control)
+        control.map = None
+        js = 'map.removeControl({controlName})'.format(controlName=control.controlName)
         self.runJavaScript(js)
 
     def getBounds(self):
