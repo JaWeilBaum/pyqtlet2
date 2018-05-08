@@ -19,9 +19,11 @@ class Control(Evented):
 
     def __init__(self, options=None):
         super().__init__()
+        self.options = options
 
     def addTo(self, map_):
         map_.addControl(self)
 
     def removeFrom(self, map_):
         map_.removeControl(self)
+

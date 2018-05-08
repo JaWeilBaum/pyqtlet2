@@ -3,6 +3,7 @@ from .layer import LayerGroup, FeatureGroup
 from .layer.tile import TileLayer
 from .layer.marker import Marker
 from .layer.vector import Circle, CircleMarker, Polygon, Polyline, Rectangle
+from .control import Control
 
 class L:
     """
@@ -18,4 +19,5 @@ class L:
     circle = Circle
     layerGroup = LayerGroup
     featureGroup = FeatureGroup
+    control = Control
 

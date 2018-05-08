@@ -1,34 +1,34 @@
 import logging
 
-from PyQt5.QtCore import QObject, QEventLoop, pyqtSignal, pyqtSlot, QThread
+from PyQt5.QtCore import QObject, QEventLoop, pyqtSignal, pyqtSlot, QThread, QTimer
 
 from ... import mapwidget
 
-
-class JsThread(QThread):
-    jsComplete = pyqtSignal()
-    def __init__(self, page, js=None):
-        super().__init__()
-        self.page = page
+class WorkerThread(QThread):
+    completed = pyqtSignal()
+    def __init__(self, work, js):
+        QThread.__init__(self)
+        self.work = work
         self.js = js
         self.response = None
-        self._logger = logging.getLogger(__name__)
+        self.completed.connect(lambda: print('completed emit'))
 
-    def _jsResponse(self, response):
-        self._logger.debug('jsthread got response: {response}'.format(response=response))
-        self.response = response
-        self.jsComplete.emit()
-
-    def setJs(self, js):
-        self.js = js
-
+    @pyqtSlot()
     def run(self):
         loop = QEventLoop()
-        self._logger.debug('running jsthread: {js}'.format(js=self.js))
-        self.jsComplete.connect(loop.quit)
-        self.page.runJavaScript(self.js, self._jsResponse)
+        self.completed.connect(loop.quit)
         loop.exec()
+        print('run response', self.response)
+        return self.response
 
+    def doWork(self):
+        pass
+
+    @pyqtSlot(str)
+    def callback(self, response):
+        self.response = response
+        print('callback function', response)
+        self.completed.emit()
 
 class Evented(QObject):
     '''
@@ -36,7 +36,7 @@ class Evented(QObject):
     Handles initiation, as well as all python<->js communication
     '''
     mapWidget = None
-    _jsComplete = pyqtSignal()
+    jsComplete = pyqtSignal()
 
     def __init__(self, mapWidget=None):
         super().__init__()
@@ -50,7 +50,6 @@ class Evented(QObject):
             raise TypeError(('Expected mapWidget of type pyqtlet.MapWidget, '
                             'received {type_}'.format(type_=type(mapWidget))))
         Evented.mapWidget = mapWidget
-        self.jsThread = JsThread(self.mapWidget.page,'')
         js = ('var channelObjects = null;'
               'new QWebChannel(qt.webChannelTransport, function(channel) {'
               '    channelObjects = channel.objects;'
@@ -58,17 +57,41 @@ class Evented(QObject):
         self.runJavaScript(js)
 
     def getJsResponse(self, js):
+        # Qt runs runJavaScript function asynchronously. So if we want 
+        # to get a response from leaflet, we need to force it to be sync
         # We create a thread that runs the code, waits for the response
-        # and then saves it in the thread
-        # NOTE: I'm not sure why this doesn't need an eventloop, and how
-        # the response comes...
-        self.jsThread.setJs(js)
-        self.jsThread.start()
-        return self.jsThread.response
+        # and then returns the response that was saved in the thread
+        # js = f'var response = {js};channelObjects.{self.jsName}Object.jsComplete.emit();channelObjects.{self.jsName}Object._setResponse(JSON.strigify(response));;'
+        loop = QEventLoop()
+        thread = WorkerThread(self.mapWidget.page.runJavaScript, js)
+        thread.start()
+        self.mapWidget.page.runJavaScript(js, thread.callback)
+        thread.finished.connect(loop.quit)
+        loop.exec()
+        return thread.response
+
+    @pyqtSlot(str)
+    def _setResponse(self, response):
+        print('response', response)
+        self.response = response
+
+    @pyqtSlot(str)
+    def _onJsResponse(self, response):
+        print('response', response)
+        self.response = response
+        self.jsComplete.emit()
+
+    def startScript(self):
+        self._logger.debug('getting Js response: {js}'.format(js=self.js))
+        self.mapWidget.page.runJavaScript(self.js, self._onJsResponse)
 
     def runJavaScript(self, js):
         self._logger.debug('Running JS: {js}'.format(js=js))
         self.mapWidget.page.runJavaScript(js)
+
+    def runJavaScriptWithResult(self, js, callback):
+        self._logger.debug('Running JS with callback: {js}, {callback}'.format(js=js, callback=callback.__name__))
+        self.mapWidget.page.runJavaScript(js, callback)
 
     def _createJsObject(self, leafletJsObject):
         # Creates the js object on the mapWidget page
