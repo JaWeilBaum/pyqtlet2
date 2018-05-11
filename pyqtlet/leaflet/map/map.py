@@ -98,14 +98,17 @@ class Map(Evented):
         js = 'map.removeControl({controlName})'.format(controlName=control.controlName)
         self.runJavaScript(js)
 
-    def getBounds(self):
-        return self.getJsResponse('map.getBounds()')
+    def getBounds(self, callback):
+        return self.getJsResponse('map.getBounds()', callback)
 
-    def getCenter(self):
-        return self.getJsResponse('map.getCenter()')
+    def getCenter(self, callback):
+        return self.getJsResponse('map.getCenter()', callback)
 
-    def getZoom(self):
-        return self.getJsResponse('map.getZoom()')
+    def getZoom(self, callback):
+        return self.getJsResponse('map.getZoom()', callback)
+
+    def getState(self, callback):
+        return self.getJsResponse('getMapState()', callback)
 
     def hasLayer(self, layer):
         return layer in self._layers

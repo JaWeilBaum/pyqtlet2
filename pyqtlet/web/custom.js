@@ -23,3 +23,26 @@ function cleanStringify(object) {
         return cleanObject;
     }
 }
+
+function getMapState() {
+    var center = map.getCenter();
+    var zoom = map.getZoom();
+    var bounds = map.getBounds();
+    var minZoom = map.getMinZoom();
+    var maxZoom = map.getMaxZoom();
+    var size = map.getSize();
+    var pixelBounds = map.getPixelBounds();
+    var pixelOrigin = map.getPixelOrigin();
+    var pixelWorldBounds = map.getPixelWorldBounds();
+    return {
+        center: center,
+        zoom: zoom,
+        bounds: bounds,
+        minZoom: minZoom,
+        maxZoom: maxZoom,
+        size: size,
+        pixelBounds: pixelBounds,
+        pixelOrigin: pixelOrigin,
+        pixelWorldBounds: pixelWorldBounds
+    }
+}
