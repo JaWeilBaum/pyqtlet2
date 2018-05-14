@@ -59,7 +59,36 @@ class Evented(QObject):
         js = '{name}.on("{event}", function(e) {{\
                   delete e.target;\
                   delete e.sourceTarget;\
+                  e = copyWithoutCircularReferences([e], e);\
                   channelObjects.{name}Object.{signalEmitter}(e)}})'.format(
             name=self.jsName, event=event, signalEmitter=signalEmitter)
         self.runJavaScript(js)
+
+    def _stringifyForJs(self, object_):
+        # When passing options to JS, sometimes we need to pass in objects
+        # this method and _handleObject take care of that
+        # Some arguments are strings and some are objects. We also make sure
+        # that the objects are not sent as strings. Similarly, we also convert
+        # python bool to js bool
+        jsString = str(self._handleObject(object_))
+        jsString = jsString.replace('\'__pyqtletObjectStart__', '')
+        jsString = jsString.replace('\"__pyqtletObjectStart__', '')
+        jsString = jsString.replace('__pyqtletObjectEnd__\'', '')
+        jsString = jsString.replace('__pyqtletObjectEnd__\"', '')
+        return jsString
+
+    def _handleObject(self, object_):
+        if type(object_) is list:
+            return [self._handleObject(item) for item in object_]
+        if type(object_) is dict:
+            return {key: self._handleObject(object_[key]) for key in object_}
+        if issubclass(object_.__class__, Evented):
+            return '__pyqtletObjectStart__{name}__pyqtletObjectEnd__'.format(name=object_.jsName)
+        if object_ is True:
+            return '__pyqtletObjectStart__true__pyqtletObjectEnd__'
+        if object_ is False:
+            return '__pyqtletObjectStart__false__pyqtletObjectEnd__'
+        if object_ is None:
+            return '__pyqtletObjectStart__null__pyqtletObjectEnd__'
+        return object_
 

@@ -15,6 +15,7 @@ class Map(Evented):
 
     clicked = pyqtSignal(dict)
     zoomend = pyqtSignal(dict)
+    drawCreated = pyqtSignal(dict)
 
     @property
     def layers(self):
@@ -33,6 +34,11 @@ class Map(Evented):
         self.clicked.emit(event)
 
     @pyqtSlot(dict)
+    def onDrawCreated(self, event):
+        self._logger.debug('draw created. event: {event}'.format(event=event))
+        self.drawCreated.emit(event)
+
+    @pyqtSlot(dict)
     def onZoomend(self, event):
         self._logger.debug('map zoomend. event: {event}'.format(event=event))
         self.zoomend.emit(event)
@@ -47,11 +53,12 @@ class Map(Evented):
         self._initJs()
         self._connectEventToSignal('click', 'onClick')
         self._connectEventToSignal('zoomend', 'onZoomend')
+        self._connectEventToSignal('draw:created', 'onDrawCreated')
 
     def _initJs(self):
         jsObject = 'L.map("map"'
         if self.options:
-            jsObject += ', {options}'.format(options=self.options)
+            jsObject += ', {options}'.format(options=self._stringifyForJs(self.options))
         jsObject += ')'
         self._createJsObject(jsObject)
 
@@ -147,3 +154,7 @@ class Map(Evented):
             js += ', {options}'.format(options=options)
         js += ');'
         self.runJavaScript(js)
+
+
+
+
