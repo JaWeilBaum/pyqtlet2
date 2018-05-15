@@ -14,6 +14,17 @@ class Evented(QObject):
     mapWidget = None
 
     def __init__(self, mapWidget=None):
+        '''
+        Base class for all pyqtlet objects
+        Handles initiation, as well as python-Js communication
+        The first pyqtlet object to be initiated should be pyqtlet.L.map
+        This will allow all the pyqtlet objects to have access to the
+        widget and thus the ability to implement leaflet via python.
+
+        :param pyqtlet.MapWidget mapWidget: The mapwidget object
+            Should only be sent once, when the first object is being 
+            initialised.
+        '''
         super().__init__()
         self._logger = logging.getLogger(__name__)
         self.response = None
@@ -33,19 +44,48 @@ class Evented(QObject):
         self.mapWidget.page.titleChanged.connect(lambda: print('title changed'))
 
     def getJsResponse(self, js, callback):
-        # Qt runs runJavaScript function asynchronously. So if we want 
-        # to get a response from leaflet, we need to force it to be sync
-        # In all that I have tried, I was unable to get the response from
-        # the same function, so I am converting it to a method with callback
+        '''
+        Runs javascript code in the mapWidget and triggers callback.
+
+        Can be used for custom use cases where information is required
+        from the mapwidget, and the existing code does not cover the
+        requirement
+        
+        :param str js: The javascript code
+        :param function callback: The function that will consume the 
+            javascript response
+
+        .. note:: 
+            Qt runs runJavaScript function asynchronously. So if we want 
+            to get a response from leaflet, we need to force it to be sync
+            In all that I have tried, I was unable to get the response from
+            the same function, so I am converting it to a method with callback
+        '''
         self._logger.debug('Running JS with callback: {js}=>{callback}'.format(
             js=js, callback=callback.__name__))
         self.mapWidget.page.runJavaScript(js, callback)
 
     def runJavaScript(self, js):
+        '''
+        Runs javascript code in the mapWidget.
+
+        Can be used for custom use cases where the existing code,
+        methods etc. do not cover the requirements.
+
+        :param str js: The javascript code
+        '''
         self._logger.debug('Running JS: {js}'.format(js=js))
         self.mapWidget.page.runJavaScript(js)
 
     def _createJsObject(self, leafletJsObject):
+        '''
+        Function to create variables/objects in leaflet in the
+        javascript "engine", and registers the object so that it can
+        be called in the webchannel.
+
+        :param str leafletJsObject: javascript code that creates the
+            leaflet object
+        '''
         # Creates the js object on the mapWidget page
         js = 'var {name} = {jsObject}'.format(name=self.jsName, 
                 jsObject=leafletJsObject)
@@ -69,7 +109,7 @@ class Evented(QObject):
         # this method and _handleObject take care of that
         # Some arguments are strings and some are objects. We also make sure
         # that the objects are not sent as strings. Similarly, we also convert
-        # python bool to js bool
+        # python bool to js bool etc.
         jsString = str(self._handleObject(object_))
         jsString = jsString.replace('\'__pyqtletObjectStart__', '')
         jsString = jsString.replace('\"__pyqtletObjectStart__', '')

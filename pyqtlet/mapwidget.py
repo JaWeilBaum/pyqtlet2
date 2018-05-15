@@ -28,7 +28,6 @@ class MapWidget(QWebEngineView):
         self._channel = QWebChannel()
         self._page.setWebChannel(self._channel)
         self._loadPage()
-        # TODO Link channel to page
 
     def _loadPage(self):
         html_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'web', 'map.html')

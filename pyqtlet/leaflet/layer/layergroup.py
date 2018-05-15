@@ -33,3 +33,6 @@ class LayerGroup(Layer):
                 layerName=layer._layerName)
         self.runJavaScript(js)
 
+    def toGeoJSON(self, callback):
+        self.getJsResponse('{layer}.toGeoJSON()'.format(layer=self.jsName), callback)
+
