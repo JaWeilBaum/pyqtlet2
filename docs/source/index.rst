@@ -19,4 +19,15 @@ pyqtlet allows you to bring in these leaflet maps into PyQt5 in just a couple of
         ...
         self.layout.add(self.mapWidget)
 
-For further details, consult the API_Documentation_.
+
+If you have are just starting out, you might want to start off with the :doc:`getting-started` page.
+
+.. toctree::
+    :hidden:
+    
+    getting-started
+    api-docs
+    examples
+    tutorials
+    technical
+    contributing

@@ -9,15 +9,25 @@ from ... import mapwidget
 from ..core import Evented
 
 class Map(Evented):
-    """
-    L.map equivalent in PyQtlet
-    """
-    
-    ''' Signal emitted when there is a click detected on the leaflet map '''
+    '''
+    .. module:: pyqtlet
+
+    pyqtlet equivalent of L.map
+
+    Map element has to be the first pyqtlet object to be initiated.
+
+    .. note::
+        Further documentation can be found at the official leaflet API.
+
+    :param pyqtlet.MapWidget mapWidget: The mapwidget object
+        Should only be sent once, when the first object is being 
+        initialised.
+
+    :param dict options: Options for initiation (optional)
+    '''
+   
     clicked = pyqtSignal(dict)
-    ''' Signal emitted when leaflet map zoom ends '''
-    zoomend = pyqtSignal(dict)
-    ''' Signal emitted when draw control creates a new shape '''
+    zoom = pyqtSignal(dict)
     drawCreated = pyqtSignal(dict)
 
     @property
@@ -41,13 +51,13 @@ class Map(Evented):
 
     @pyqtSlot(dict)
     def _onDrawCreated(self, event):
-        self._logger.debug('draw created. event: {event}'.format(event=event))
+        self._logger.log('draw created. event: {event}'.format(event=event))
         self.drawCreated.emit(event)
 
     @pyqtSlot(dict)
-    def _onZoomend(self, event):
-        self._logger.debug('map zoomend. event: {event}'.format(event=event))
-        self.zoomend.emit(event)
+    def _onZoom(self, event):
+        self._logger.log('map zoom. event: {event}'.format(event=event))
+        self.zoom.emit(event)
 
     def __init__(self, mapWidget, options=None):
         '''
@@ -60,17 +70,21 @@ class Map(Evented):
             initialised.
 
         :param dict options: Options for initiation (optional)
+
+        .. note
+            Further documentation can be found at the official leaflet API.
         '''
 
         super().__init__(mapWidget)
         self._logger = logging.getLogger(__name__)
+        self._logger.setLevel(9)
         self.options = options
         self._layers = []
         self._controls = []
         self._jsName = 'map'
         self._initJs()
         self._connectEventToSignal('click', '_onClick')
-        self._connectEventToSignal('zoomend', '_onZoomend')
+        self._connectEventToSignal('zoom', '_onZoom')
         self._connectEventToSignal('draw:created', '_onDrawCreated')
 
     def _initJs(self):
@@ -160,7 +174,7 @@ class Map(Evented):
         js += ');'
         self.runJavaScript(js)
 
-    def setView(self, latLng, zoom=None, options=None):
+    def flyTo(self, latLng, zoom=None, options=None):
         js = 'map.flyTo({latLng}'.format(latLng=latLng);
         if zoom:
             js += ', {zoom}'.format(zoom=zoom)

@@ -46,7 +46,7 @@ class Layer(Evented):
         js = '{layerName}.bindPopup("{content}"'.format(
                 layerName=self._layerName, content=content)
         if options:
-            js += ', {options}'.format(options)
+            js += ', {options}'.format(self._stringifyForJs(options))
         js += ')'
         self.runJavaScript(js)
         
@@ -58,7 +58,7 @@ class Layer(Evented):
         js = '{layerName}.bindTooltip("{content}"'.format(
                 layerName=self._layerName, content=content)
         if options:
-            js += ', {options}'.format(options)
+            js += ', {options}'.format(self._stringifyForJs(options))
         js += ')'
         self.runJavaScript(js)
         
