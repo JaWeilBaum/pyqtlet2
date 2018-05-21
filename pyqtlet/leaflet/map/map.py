@@ -51,12 +51,12 @@ class Map(Evented):
 
     @pyqtSlot(dict)
     def _onDrawCreated(self, event):
-        self._logger.log('draw created. event: {event}'.format(event=event))
+        self._logger.debug('draw created. event: {event}'.format(event=event))
         self.drawCreated.emit(event)
 
     @pyqtSlot(dict)
     def _onZoom(self, event):
-        self._logger.log('map zoom. event: {event}'.format(event=event))
+        self._logger.debug('map zoom. event: {event}'.format(event=event))
         self.zoom.emit(event)
 
     def __init__(self, mapWidget, options=None):
