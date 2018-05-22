@@ -10,7 +10,7 @@ package.
 .. code:: python
 
 	import sys
-	from PyQt5.QtWidgets import QApplication, QVBoxLayout, QVBoxLayout
+	from PyQt5.QtWidgets import QApplication, QVBoxLayout, QWidget
 	from pyqtlet import L, MapWidget
 
 
