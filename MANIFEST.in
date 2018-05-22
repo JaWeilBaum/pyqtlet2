@@ -1,0 +1,8 @@
+include setup.cfg
+include setup.py
+include pyqtlet/__init__.py
+include pyqtlet/mapwidget.py
+
+recursive-include pyqtlet/web *
+
+recursive-include pyqtlet/leaflet *
