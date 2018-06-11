@@ -32,7 +32,12 @@ class LayerGroup(Layer):
         js = '{layerGroup}.removeLayer({layerName})'.format(layerGroup=self._layerName,
                 layerName=layer._layerName)
         self.runJavaScript(js)
-
+    
+    def clearLayers(self, layer):
+        js = '{layerGroup}.clearLayers({layerName})'.format(layerGroup=self._layerName,
+                layerName=layer._layerName)
+        self.runJavaScript(js)
+    
     def toGeoJSON(self, callback):
         self.getJsResponse('{layer}.toGeoJSON()'.format(layer=self.jsName), callback)
 
