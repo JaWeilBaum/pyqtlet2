@@ -30,7 +30,7 @@ setup(
       'pyqtlet.web.modules.leafletdraw.images': ['*'],
       'pyqtlet.web.modules.leafletdraw.ext': ['*'],
       },
-  version = '0.2.4',
+  version = '0.3.0',
   description = 'Bringing leaflet maps to PyQt',
   author = 'Samarth Hattangady',
   author_email = 'samhattangady@gmail.com',
