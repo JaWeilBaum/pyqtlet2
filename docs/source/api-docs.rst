@@ -46,6 +46,7 @@ Methods
     * removeControl
     * removeLayer
     * setMaxBounds
+    * fitBounds
     * setMaxZoom
     * setMinZoom
     * setView
@@ -96,6 +97,7 @@ Methods
 ^^^^^^^
     * addLayer
     * removeLayer
+    * clearLayers
     * toGeoJSON
 
 L.featureGroup
