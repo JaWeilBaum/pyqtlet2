@@ -158,6 +158,10 @@ class Map(Evented):
     def setMaxBounds(self, bounds):
         js = 'map.setMaxBounds({bounds})'.format(bounds=bounds)
         self.runJavaScript(js)
+       
+    def fitBounds(self, bounds):
+        js = 'map.fitBounds({bounds})'.format(bounds=bounds)
+        self.runJavaScript(js)
 
     def setMaxZoom(self, zoom):
         js = 'map.setMaxZoom({zoom})'.format(zoom=zoom)
