@@ -33,7 +33,7 @@ class LayerGroup(Layer):
                 layerName=layer._layerName)
         self.runJavaScript(js)
     
-    def clearLayers(self, layer):
+    def clearLayers(self):
         js = '{layerGroup}.clearLayers()'.format(layerGroup=self._layerName)
         self.runJavaScript(js)
     
