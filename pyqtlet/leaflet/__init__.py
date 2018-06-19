@@ -1,5 +1,5 @@
 from .map import Map
-from .layer import LayerGroup, FeatureGroup
+from .layer import LayerGroup, FeatureGroup, imageOverlay
 from .layer.tile import TileLayer
 from .layer.marker import Marker
 from .layer.vector import Circle, CircleMarker, Polygon, Polyline, Rectangle
@@ -11,6 +11,7 @@ class L:
     """
     map = Map
     tileLayer = TileLayer
+    imageOverlay = imageOverlay
     marker = Marker
     circleMarker = CircleMarker
     polyline = Polyline
