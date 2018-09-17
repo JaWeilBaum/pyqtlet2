@@ -3,7 +3,7 @@ import logging
 import os
 import time
 
-from PyQt5.QtCore import pyqtSlot, pyqtSignal
+from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
 
 from ... import mapwidget
 from ..core import Evented
@@ -44,20 +44,20 @@ class Map(Evented):
         '''
         return self._jsName
 
-    @pyqtSlot(dict)
+    @pyqtSlot(QJsonValue)
     def _onClick(self, event):
         self._logger.debug('map clicked. event: {event}'.format(event=event))
-        self.clicked.emit(event)
+        self.clicked.emit(self._qJsonValueToDict(event))
 
-    @pyqtSlot(dict)
+    @pyqtSlot(QJsonValue)
     def _onDrawCreated(self, event):
         self._logger.debug('draw created. event: {event}'.format(event=event))
-        self.drawCreated.emit(event)
+        self.drawCreated.emit(self._qJsonValueToDict(event))
 
-    @pyqtSlot(dict)
+    @pyqtSlot(QJsonValue)
     def _onZoom(self, event):
         self._logger.debug('map zoom. event: {event}'.format(event=event))
-        self.zoom.emit(event)
+        self.zoom.emit(self._qJsonValueToDict(event))
 
     def __init__(self, mapWidget, options=None):
         '''
