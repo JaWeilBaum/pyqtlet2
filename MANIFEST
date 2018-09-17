@@ -19,10 +19,12 @@ pyqtlet/leaflet/core/__pycache__/__init__.cpython-36.pyc
 pyqtlet/leaflet/core/__pycache__/evented.cpython-36.pyc
 pyqtlet/leaflet/layer/__init__.py
 pyqtlet/leaflet/layer/featuregroup.py
+pyqtlet/leaflet/layer/imageoverlay.py
 pyqtlet/leaflet/layer/layer.py
 pyqtlet/leaflet/layer/layergroup.py
 pyqtlet/leaflet/layer/__pycache__/__init__.cpython-36.pyc
 pyqtlet/leaflet/layer/__pycache__/featuregroup.cpython-36.pyc
+pyqtlet/leaflet/layer/__pycache__/imageoverlay.cpython-36.pyc
 pyqtlet/leaflet/layer/__pycache__/layer.cpython-36.pyc
 pyqtlet/leaflet/layer/__pycache__/layergroup.cpython-36.pyc
 pyqtlet/leaflet/layer/marker/__init__.py
