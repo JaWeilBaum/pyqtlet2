@@ -1,7 +1,7 @@
 import logging
 import time
 
-from PyQt5.QtCore import QObject
+from PyQt5.QtCore import QObject, QJsonValue
 
 from ... import mapwidget
 
@@ -132,4 +132,33 @@ class Evented(QObject):
         if object_ is None:
             return '__pyqtletObjectStart__null__pyqtletObjectEnd__'
         return object_
+
+    def _qJsonValueToDict(self, object_):
+        # Qt returns QJsonValue from within the QChannel. Converting
+        # that into a dict is a small recursive function.
+        if type(object_) is QJsonValue:
+            return self._qJsonValueToDict(self._qJsonToRespectiveType(object_))
+        if type(object_) is list:
+            return [self._qJsonValueToDict(item) for item in object_]
+        if type(object_) is dict:
+            return {key: self._qJsonValueToDict(object_[key]) for key in object_}
+        return object_
+
+    def _qJsonToRespectiveType(self, object_):
+        # A QJsonValue can be one of many types. This function just
+        # converts into the correct type
+        if object_.isArray():
+            return object_.toArray()
+        if object_.isBool():
+            return object_.toBool()
+        if object_.isDouble():
+            return object_.toDouble()
+        if object_.isNull():
+            return None
+        if object_.isObject():
+            return object_.toObject()
+        if object_.isString():
+            return object_.toString()
+        if object_.isUndefined():
+            return None
 
