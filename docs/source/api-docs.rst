@@ -64,6 +64,9 @@ Methods
     * unbindPopup
     * unbindTooltip
 
+L.imageOverlay
+--------------
+
 L.tileLayer
 -----------
 
