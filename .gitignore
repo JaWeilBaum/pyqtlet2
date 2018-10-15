@@ -7,3 +7,7 @@ trial.py
 docs/build
 
 dist/*
+
+.idea
+.python-version
+venv
