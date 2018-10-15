@@ -1,0 +1,13 @@
+Before every upload, things to change:
+
+1. Version in `setup.py`
+2. Version in `pyqtlet/__init__.py`
+
+To upload onto pypi:
+
+1. re -rf dist/
+2. python3 setup.pt sdist
+3. Commit, tag, push with tags
+4. python3 -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
+
+Done
