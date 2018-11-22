@@ -1,8 +1,5 @@
 from distutils.core import setup
 
-with open('README.md') as file:
-    readme = file.read()
-
 setup(
     name='pyqtlet',
     packages=[
@@ -38,13 +35,11 @@ setup(
         'pyqtlet.web.modules.leafletdraw.images': ['*'],
         'pyqtlet.web.modules.leafletdraw.ext': ['*'],
     },
-    version='0.3.2',
+    version='0.3.3',
     description='Bringing leaflet maps to PyQt',
     author='Samarth Hattangady',
     author_email='samhattangady@gmail.com',
     url='https://github.com/skylarkdrones/pyqtlet',
     keywords=['leaflet', 'pyqt', 'maps'],
     classifiers=[],
-    long_description=readme,
-    long_description_content_type='text/markdown',
 )
