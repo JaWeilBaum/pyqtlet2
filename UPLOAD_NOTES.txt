@@ -1,13 +1,27 @@
 Before every upload, things to change:
+=====================================
 
 1. Version in `setup.py`
 2. Version in `pyqtlet/__init__.py`
 
-To upload onto pypi:
+Build for pypi
+--------------
 
 1. re -rf dist/
 2. python3 setup.pt sdist
 3. Commit, tag, push with tags
-4. python3 -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
+
+Push to test pypi and test. 
+---------------------------
+# NOTE: Test pypi takes some time to update
+
+1. python3 -m twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+2. pip install --index-url https://test.pypi.org/simple/ pyqtlet==version
+
+Push to pypi
+------------
+1. python3 -m twine upload --repository-url https://upload.pypi.org/legacy/ dist/*
 
 Done
+----
+
