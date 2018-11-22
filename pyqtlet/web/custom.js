@@ -17,6 +17,8 @@ function copyWithoutCircularReferences(references, object) {
     return cleanObject;
 }
 
+// NOTE: There is an assumption here that the map var will be called map
+// Might not be the case if there are multiple maps.
 function getMapState() {
     var center = map.getCenter();
     var zoom = map.getZoom();

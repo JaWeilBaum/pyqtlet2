@@ -48,3 +48,4 @@ class Draw(Control):
     def addDrawnToFeatureGroup(self):
         self.map.addLayer(self.featureGroup)
         self.map.drawCreated.connect(self.featureGroup.createAndAddDrawnLayer)
+
