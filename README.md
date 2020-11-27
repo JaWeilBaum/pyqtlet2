@@ -52,6 +52,25 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 ```
 
+## Using Unimplemented Leaflet Features
+At this time, there is noone actively adding features to pyqtlet. This means that there
+are a lot of Leaflet features that are not implemented in pyqtlet. However, there is still
+a way to access these features via the `runJavaScript` api. This allows arbitrary code to
+be run within the map window.
+
+For example, if we want to change the marker icon in the above example, add the following
+2 lines of code after the `self.map.addLayer(self.marker)` statement.
+
+``` python
+        # Create a icon called markerIcon in the js runtime.
+        self.map.runJavaScript('var markerIcon = L.icon({iconUrl: "https://leafletjs.com/examples/custom-icons/leaf-red.png"});')
+        # Edit the existing python object by accessing it's jsName property
+        self.map.runJavaScript(f'{self.marker.jsName}.setIcon(markerIcon);')
+```
+
+This technique will allow users to use all the features available in leaflet.
+
 ## Contributing
 In terms of contributing, there is a lot of work that still needs to be done. 
+Specifically, there are a lot of leaflet features that need to be ported into pyqtlet. All contributions welcome.
 For further details, visit the [contributing page](http://pyqtlet.readthedocs.io/en/latest/contributing.html).
