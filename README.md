@@ -1,10 +1,10 @@
-# pyqtlet
+# pyqtlet2
 
 pyqtlet is a wrapper for Leaflet maps in PyQt5. In construction and design, it mimics the [official leaflet api](http://leafletjs.com/reference-1.3.0.html) as much as possible.
 
-pyqtlet is currently in v0.3.0. To get started, visit the [Getting Started page](http://pyqtlet.readthedocs.io/en/latest/getting-started.html)
+## About
 
-Further details about implementation, API docs etc can also be found on the [pyqtlet site](http://pyqtlet.readthedocs.io/en/latest/index.html)
+This is a fork of the repository pyqtlet from @skylarkdrones. Since the original repository is not further maintained, I want to further develop this package. 
 
 ## Installation
 
