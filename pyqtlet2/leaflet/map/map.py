@@ -10,16 +10,16 @@ from ..core import Evented
 
 class Map(Evented):
     '''
-    .. module:: pyqtlet
+    .. module:: pyqtlet2
 
-    pyqtlet equivalent of L.map
+    pyqtlet2 equivalent of L.map
 
-    Map element has to be the first pyqtlet object to be initiated.
+    Map element has to be the first pyqtlet2 object to be initiated.
 
     .. note::
         Further documentation can be found at the official leaflet API.
 
-    :param pyqtlet.MapWidget mapWidget: The mapwidget object
+    :param pyqtlet2.MapWidget mapWidget: The mapwidget object
         Should only be sent once, when the first object is being 
         initialised.
 
@@ -61,11 +61,11 @@ class Map(Evented):
 
     def __init__(self, mapWidget, options=None):
         '''
-        pyqtlet equivalent of L.map
+        pyqtlet2 equivalent of L.map
 
-        Map element has to be the first pyqtlet object to be initiated.
+        Map element has to be the first pyqtlet2 object to be initiated.
 
-        :param pyqtlet.MapWidget mapWidget: The mapwidget object
+        :param pyqtlet2.MapWidget mapWidget: The mapwidget object
             Should only be sent once, when the first object is being 
             initialised.
 

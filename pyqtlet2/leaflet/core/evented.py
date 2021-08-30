@@ -8,20 +8,20 @@ from ... import mapwidget
 
 class Evented(QObject):
     '''
-    Base class for all pyqtlet objects. 
+    Base class for all pyqtlet2 objects.
     Handles initiation, as well as all python<->js communication
     '''
     mapWidget = None
 
     def __init__(self, mapWidget=None):
         '''
-        Base class for all pyqtlet objects
+        Base class for all pyqtlet2 objects
         Handles initiation, as well as python-Js communication
-        The first pyqtlet object to be initiated should be pyqtlet.L.map
-        This will allow all the pyqtlet objects to have access to the
+        The first pyqtlet2 object to be initiated should be pyqtlet2.L.map
+        This will allow all the pyqtlet2 objects to have access to the
         widget and thus the ability to implement leaflet via python.
 
-        :param pyqtlet.MapWidget mapWidget: The mapwidget object
+        :param pyqtlet2.MapWidget mapWidget: The mapwidget object
             Should only be sent once, when the first object is being 
             initialised.
         '''
@@ -32,9 +32,9 @@ class Evented(QObject):
         if Evented.mapWidget:
             return
         if mapWidget is None:
-            raise RuntimeError('L.map must be initialised before other pyqtlet objects')
+            raise RuntimeError('L.map must be initialised before other pyqtlet2 objects')
         if not issubclass(type(mapWidget), mapwidget.MapWidget):
-            raise TypeError(('Expected mapWidget of type pyqtlet.MapWidget, '
+            raise TypeError(('Expected mapWidget of type pyqtlet2.MapWidget, '
                             'received {type_}'.format(type_=type(mapWidget))))
         Evented.mapWidget = mapWidget
         js = ('var channelObjects = null;'
