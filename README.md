@@ -10,7 +10,7 @@ This is a fork of the repository pyqtlet from @skylarkdrones. Since the original
 
 ``` bash
 pip3 install PyQt5
-pip3 install pyqtlet
+pip3 install pyqtlet2
 ```
 
 ``` bash
