@@ -1,4 +1,6 @@
 __pycache__
+build
+pyqtlet2.egg-info
 */__pycache__
 
 *.swp
