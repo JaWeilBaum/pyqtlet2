@@ -29,8 +29,11 @@ class MapWidget(QWebEngineView):
         self._page.setWebChannel(self._channel)
         self._loadPage()
 
+    def _get_page_path(self):
+        return os.path.join(os.getcwd(), 'web', 'map.html')
+
     def _loadPage(self):
-        html_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'web', 'map.html')
+        html_path = self._get_page_path()
         # QEventLoop is used to make the page loading behave syncronously
         init_loop = QEventLoop()
         self._page.loadFinished.connect(init_loop.quit)

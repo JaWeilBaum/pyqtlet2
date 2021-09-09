@@ -1,4 +1,6 @@
 __pycache__
+build
+pyqtlet2.egg-info
 */__pycache__
 
 *.swp
@@ -11,3 +13,4 @@ dist/*
 .idea
 .python-version
 venv
+/playground.py

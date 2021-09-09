@@ -1,8 +1,9 @@
 include setup.cfg
 include setup.py
-include pyqtlet/__init__.py
-include pyqtlet/mapwidget.py
+include pyqtlet2/__init__.py
+include pyqtlet2/mapwidget.py
+include pyqtlet2/web/custom.js
+include pyqtlet2/web/map.html
 
-recursive-include pyqtlet/web *
-
-recursive-include pyqtlet/leaflet *
+recursive-include pyqtlet2/web/modules *
+recursive-include pyqtlet2/leaflet *
