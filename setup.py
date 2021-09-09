@@ -9,7 +9,7 @@ OPTIONS={
 setup(
     name='pyqtlet2',
     app=["playground.py"],
-    version='0.3.4',
+    version='0.4.0',
     description='Bringing leaflet maps to PyQt',
     author='Leon Friedmann',
     author_email='leon.friedmann@tum.de',
