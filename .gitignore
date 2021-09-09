@@ -13,3 +13,4 @@ dist/*
 .idea
 .python-version
 venv
+/playground.py

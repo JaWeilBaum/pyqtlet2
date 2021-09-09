@@ -10,6 +10,7 @@ This is a fork of the repository pyqtlet from @skylarkdrones. Since the original
 
 ``` bash
 pip3 install PyQt5
+pip3 install PyQtWebEngine
 pip3 install pyqtlet
 ```
 
@@ -25,7 +26,7 @@ python3
 ``` python
 import sys
 from PyQt5.QtWidgets import QApplication, QVBoxLayout, QWidget
-from pyqtlet import L, MapWidget
+from pyqtlet2 import L, MapWidget
 
 
 class MapWindow(QWidget):
