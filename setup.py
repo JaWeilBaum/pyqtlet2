@@ -27,7 +27,7 @@ setup(
         'pyqtlet2.web.modules.leaflet_draw_414.dist': ['*'],
         'pyqtlet2.web.modules.leaflet_draw_414.dist.images': ['*'],
     },
-    version='0.4.6',
+    version='0.4.7',
     description='Bringing leaflet maps to PyQt',
     author='Leon Friedmann',
     author_email='leon.friedmann@tum.de',
