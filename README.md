@@ -74,4 +74,3 @@ This technique will allow users to use all the features available in leaflet.
 ## Contributing
 In terms of contributing, there is a lot of work that still needs to be done. 
 Specifically, there are a lot of leaflet features that need to be ported into pyqtlet. All contributions welcome.
-For further details, visit the [contributing page](http://pyqtlet.readthedocs.io/en/latest/contributing.html).
