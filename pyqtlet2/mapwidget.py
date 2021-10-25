@@ -21,8 +21,12 @@ class MapWidget(QWebEngineView):
     def channel(self):
         return self._channel
 
-    def __init__(self):
+    def __init__(self, use_file_absolute_path: bool = True, alternative_base_path: str=""):
         super().__init__()
+        if use_file_absolute_path or len(alternative_base_path) == 0:
+            self.base_path = os.path.dirname(os.path.abspath(__file__))
+        else:
+            self.base_path = alternative_base_path
         self._page = QWebEnginePage()
         self.setPage(self._page)
         self._channel = QWebChannel()
@@ -30,7 +34,7 @@ class MapWidget(QWebEngineView):
         self._loadPage()
 
     def _get_page_path(self):
-        return os.path.join(os.path.dirname(os.path.abspath(__file__)), 'web', 'map.html')
+        return os.path.join(self.base_path, 'web', 'map.html')
 
     def _loadPage(self):
         html_path = self._get_page_path()
