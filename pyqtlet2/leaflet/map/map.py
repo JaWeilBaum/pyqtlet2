@@ -8,6 +8,7 @@ from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
 from ... import mapwidget
 from ..core import Evented
 
+
 class Map(Evented):
     '''
     .. module:: pyqtlet2
@@ -25,7 +26,7 @@ class Map(Evented):
 
     :param dict options: Options for initiation (optional)
     '''
-   
+
     clicked = pyqtSignal(dict)
     zoom = pyqtSignal(dict)
     drawCreated = pyqtSignal(dict)
@@ -66,7 +67,7 @@ class Map(Evented):
         Map element has to be the first pyqtlet2 object to be initiated.
 
         :param pyqtlet2.MapWidget mapWidget: The mapwidget object
-            Should only be sent once, when the first object is being 
+            Should only be sent once, when the first object is being
             initialised.
 
         :param dict options: Options for initiation (optional)
@@ -95,7 +96,7 @@ class Map(Evented):
         self._createJsObject(jsObject)
 
     def setView(self, latLng, zoom=None, options=None):
-        js = 'map.setView({latLng}'.format(latLng=latLng);
+        js = 'map.setView({latLng}'.format(latLng=latLng)
         if zoom:
             js += ', {zoom}'.format(zoom=zoom)
         if options:
@@ -149,7 +150,7 @@ class Map(Evented):
         return layer in self._layers
 
     def setZoom(self, zoom, options=None):
-        js = 'map.setZoom({zoom}'.format(zoom=zoom);
+        js = 'map.setZoom({zoom}'.format(zoom=zoom)
         if options:
             js += ', {options}'.format(options=options)
         js += ');'
@@ -158,7 +159,7 @@ class Map(Evented):
     def setMaxBounds(self, bounds):
         js = 'map.setMaxBounds({bounds})'.format(bounds=bounds)
         self.runJavaScript(js)
-       
+
     def fitBounds(self, bounds):
         js = 'map.fitBounds({bounds})'.format(bounds=bounds)
         self.runJavaScript(js)
@@ -172,14 +173,14 @@ class Map(Evented):
         self.runJavaScript(js)
 
     def panTo(self, latLng, options=None):
-        js = 'map.panTo({latLng}'.format(latLng=latLng);
+        js = 'map.panTo({latLng}'.format(latLng=latLng)
         if options:
             js += ', {options}'.format(options=options)
         js += ');'
         self.runJavaScript(js)
 
     def flyTo(self, latLng, zoom=None, options=None):
-        js = 'map.flyTo({latLng}'.format(latLng=latLng);
+        js = 'map.flyTo({latLng}'.format(latLng=latLng)
         if zoom:
             js += ', {zoom}'.format(zoom=zoom)
         if options:
