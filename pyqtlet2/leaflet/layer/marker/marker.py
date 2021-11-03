@@ -15,6 +15,7 @@ class Marker(Layer):
         self.options = options
         self.opacity = options.get('opacity', 0)
         self._initJs()
+        self.draggable = None
         self._connectEventToSignal('move', '_onMove')
         self._connectEventToSignal('moveend', '_onMoveend')
         self._connectEventToSignal('click', '_click')
@@ -56,4 +57,10 @@ class Marker(Layer):
         self.opacity = opacity
         js = '{layerName}.setOpacity({opacity})'.format(
                 layerName=self._layerName, opacity=self.opacity)
+        self.runJavaScript(js)
+
+    def setDragging(self, draggable):
+        self.draggable = draggable
+        option = 'enable' if self.draggable else 'disable'
+        js = '{layerName}.dragging.{option}();'.format(layerName=self._layerName, option=option)
         self.runJavaScript(js)
