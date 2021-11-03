@@ -21,7 +21,9 @@ def main():
         except (ImportError, AttributeError):
             # else, just load all the test cases from the module.
             suite.addTest(unittest.defaultTestLoader.loadTestsFromName(t))
-    unittest.TextTestRunner().run(suite)
+    result = unittest.TextTestRunner().run(suite)
+    if not result.wasSuccessful():
+        exit(1)
 
 
 if __name__ == '__main__':
