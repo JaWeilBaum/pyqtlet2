@@ -9,6 +9,8 @@ class Marker(Layer):
 
     def __init__(self, latLng, options=None):
         super().__init__()
+        if isinstance(options, type(None)):
+            options = {}
         self.latLng = latLng
         self.options = options
         self.opacity = options.get('opacity', 0)
