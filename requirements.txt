@@ -1,2 +1,2 @@
-PyQt5==5.11.3
-PyQtWebEngine==*
+PyQt5==5.15.5
+PyQtWebEngine==5.15.5
