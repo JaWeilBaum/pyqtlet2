@@ -6,8 +6,8 @@ import unittest
 
 def main():
     test_modules = [
-        'tests.test_parser',
-        'tests.test_layer_elements',
+        'test_parser',
+        'test_layer_elements',
     ]
 
     suite = unittest.TestSuite()
