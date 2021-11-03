@@ -1,5 +1,5 @@
 from ..layer import Layer
-
+from pyqtlet2.leaflet.core.Parser import Parser
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
 
 class Marker(Layer):
@@ -7,15 +7,15 @@ class Marker(Layer):
     move = pyqtSignal(dict)
     click = pyqtSignal(dict)
 
-    def __init__(self, latLng, options=None):
+    def __init__(self, latLng: list[float], options=None):
         super().__init__()
         if isinstance(options, type(None)):
             options = {}
         self.latLng = latLng
         self.options = options
         self.opacity = options.get('opacity', 0)
+        self.draggable = options.get('draggable', False)
         self._initJs()
-        self.draggable = None
         self._connectEventToSignal('move', '_onMove')
         self._connectEventToSignal('moveend', '_onMoveend')
         self._connectEventToSignal('click', '_click')
@@ -44,11 +44,12 @@ class Marker(Layer):
     def _initJs(self):
         leafletJsObject = 'L.marker({latLng}'.format(latLng=self.latLng)
         if self.options:
-            leafletJsObject += ', {options}'.format(options=self.options)
+            leafletJsObject += ', {options}'.format(options=Parser.dict_for_js(self.options))
         leafletJsObject += ')'
         self._createJsObject(leafletJsObject)
 
     def setLatLng(self, latLng):
+        self.latLng = latLng
         js = '{layerName}.setLatLng({latLng})'.format(
                 layerName=self._layerName, latLng=latLng)
         self.runJavaScript(js)
