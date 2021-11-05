@@ -4,7 +4,7 @@ pyqtlet is a wrapper for Leaflet maps in PyQt5. In construction and design, it m
 
 ## About
 
-This is a fork of the repository pyqtlet from @skylarkdrones. Since the original repository is not further maintained, I want to further develop this package. 
+This is a fork of the repository pyqtlet from @skylarkdrones. Since the original repository is not further maintained. Since I find this package very usefull for a map implementation in the QT environment, I want to further develop this package. If you want to extend this package feel free to get in contact with me or create a Issue/Pull Request with a change! 
 
 ## Installation
 
