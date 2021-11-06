@@ -1,4 +1,5 @@
 from ..core import Evented
+import logging
 
 class Layer(Evented):
 
@@ -30,6 +31,7 @@ class Layer(Evented):
         super().__init__()
         self._map = None
         self._layerName = self._getNewLayerName()
+        self._log = logging.getLogger(f"layer_{self._layerName}")
 
     def _getNewLayerName(self):
         layerName = 'l{}'.format(self.layerId)
