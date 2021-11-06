@@ -17,6 +17,7 @@ setup(
         'pyqtlet2.leaflet.layer.marker',
         'pyqtlet2.leaflet.layer.tile',
         'pyqtlet2.leaflet.layer.vector',
+        'pyqtlet2.leaflet.layer.icon',
         'pyqtlet2.leaflet.map',
     ],
     package_data={
