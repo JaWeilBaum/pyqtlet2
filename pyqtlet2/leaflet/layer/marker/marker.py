@@ -1,7 +1,8 @@
 from ..layer import Layer
 from ..icon import Icon
-from pyqtlet2.leaflet.core.Parser import Parser
+from ...core.Parser import Parser
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
+
 
 class Marker(Layer):
     moveend = pyqtSignal(dict)
