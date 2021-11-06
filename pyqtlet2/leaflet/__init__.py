@@ -2,6 +2,7 @@ from .map import Map
 from .layer import LayerGroup, FeatureGroup, imageOverlay
 from .layer.tile import TileLayer
 from .layer.marker import Marker
+from .layer.icon import Icon
 from .layer.vector import Circle, CircleMarker, Polygon, Polyline, Rectangle
 from .control import Control
 
@@ -13,6 +14,7 @@ class L:
     tileLayer = TileLayer
     imageOverlay = imageOverlay
     marker = Marker
+    icon = Icon
     circleMarker = CircleMarker
     polyline = Polyline
     polygon = Polygon
