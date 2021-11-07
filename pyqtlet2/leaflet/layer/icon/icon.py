@@ -1,5 +1,5 @@
 from ..layer import Layer
-from pyqtlet2.leaflet.core.Parser import Parser
+from ...core.Parser import Parser
 import os
 
 
