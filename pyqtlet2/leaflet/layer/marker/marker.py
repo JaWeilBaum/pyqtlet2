@@ -55,19 +55,23 @@ class Marker(Layer):
         js = '{layerName}.setLatLng({latLng})'.format(
                 layerName=self._layerName, latLng=latLng)
         self.runJavaScript(js)
+        return self
 
     def setOpacity(self, opacity):
         self.opacity = opacity
         js = '{layerName}.setOpacity({opacity})'.format(
                 layerName=self._layerName, opacity=self.opacity)
         self.runJavaScript(js)
+        return self
 
     def setDragging(self, draggable):
         self.draggable = draggable
         option = 'enable' if self.draggable else 'disable'
         js = '{layerName}.dragging.{option}();'.format(layerName=self._layerName, option=option)
         self.runJavaScript(js)
+        return self
 
     def setIcon(self, icon: Icon):
         js = '{layerName}.setIcon({markerIcon});'.format(layerName=self._layerName, markerIcon=icon._layerName)
         self.runJavaScript(js)
+        return self

@@ -103,12 +103,14 @@ class Map(Evented):
             js += ', {options}'.format(options=options)
         js += ');'
         self.runJavaScript(js)
+        return self
 
     def addLayer(self, layer):
         self._layers.append(layer)
         layer.map = self
         js = 'map.addLayer({layerName})'.format(layerName=layer.layerName)
         self.runJavaScript(js)
+        return self
 
     def removeLayer(self, layer):
         if layer not in self._layers:
@@ -118,12 +120,14 @@ class Map(Evented):
         layer.map = None
         js = 'map.removeLayer({layerName})'.format(layerName=layer.layerName)
         self.runJavaScript(js)
+        return self
 
     def addControl(self, control):
         self._controls.append(control)
         control.map = self
         js = 'map.addControl({controlName})'.format(controlName=control.controlName)
         self.runJavaScript(js)
+        return self
 
     def removeControl(self, control):
         if control not in self._controls:
@@ -133,6 +137,7 @@ class Map(Evented):
         control.map = None
         js = 'map.removeControl({controlName})'.format(controlName=control.controlName)
         self.runJavaScript(js)
+        return self
 
     def getBounds(self, callback):
         return self.getJsResponse('map.getBounds()', callback)
@@ -155,22 +160,27 @@ class Map(Evented):
             js += ', {options}'.format(options=options)
         js += ');'
         self.runJavaScript(js)
+        return self
 
     def setMaxBounds(self, bounds):
         js = 'map.setMaxBounds({bounds})'.format(bounds=bounds)
         self.runJavaScript(js)
+        return self
 
     def fitBounds(self, bounds):
         js = 'map.fitBounds({bounds})'.format(bounds=bounds)
         self.runJavaScript(js)
+        return self
 
     def setMaxZoom(self, zoom):
         js = 'map.setMaxZoom({zoom})'.format(zoom=zoom)
         self.runJavaScript(js)
+        return self
 
     def setMinZoom(self, zoom):
         js = 'map.setMinZoom({zoom})'.format(zoom=zoom)
         self.runJavaScript(js)
+        return self
 
     def panTo(self, latLng, options=None):
         js = 'map.panTo({latLng}'.format(latLng=latLng)
@@ -178,6 +188,7 @@ class Map(Evented):
             js += ', {options}'.format(options=options)
         js += ');'
         self.runJavaScript(js)
+        return self
 
     def flyTo(self, latLng, zoom=None, options=None):
         js = 'map.flyTo({latLng}'.format(latLng=latLng)
@@ -187,4 +198,4 @@ class Map(Evented):
             js += ', {options}'.format(options=options)
         js += ');'
         self.runJavaScript(js)
-
+        return self

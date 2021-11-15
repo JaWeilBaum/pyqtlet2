@@ -40,9 +40,11 @@ class Layer(Evented):
 
     def addTo(self, map_):
         map_.addLayer(self)
+        return self
 
     def removeFrom(self, map_):
         map_.removeLayer(self)
+        return self
 
     def bindPopup(self, content, options=None):
         js = '{layerName}.bindPopup("{content}"'.format(
@@ -51,10 +53,12 @@ class Layer(Evented):
             js += ', {options}'.format(self._stringifyForJs(options))
         js += ')'
         self.runJavaScript(js)
-        
+        return self
+
     def unbindPopup(self):
         js = '{layerName}.unbindPopup()'.format(layerName=self._layerName)
         self.runJavaScript(js)
+        return self
 
     def bindTooltip(self, content, options=None):
         js = '{layerName}.bindTooltip("{content}"'.format(
@@ -63,9 +67,11 @@ class Layer(Evented):
             js += ', {options}'.format(self._stringifyForJs(options))
         js += ')'
         self.runJavaScript(js)
-        
+        return self
+
     def unbindTooltip(self):
         js = '{layerName}.unbindTooltip()'.format(layerName=self._layerName)
         self.runJavaScript(js)
+        return self
 
 
