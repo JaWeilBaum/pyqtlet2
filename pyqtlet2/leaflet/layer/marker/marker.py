@@ -15,7 +15,7 @@ class Marker(Layer):
             options = {}
         self.latLng = latLng
         self.options = options
-        self.opacity = options.get('opacity', 0)
+        self.opacity = options.get('opacity', 1)
         self.draggable = options.get('draggable', False)
         self._initJs()
         self._connectEventToSignal('move', '_onMove')
@@ -73,5 +73,15 @@ class Marker(Layer):
 
     def setIcon(self, icon: Icon):
         js = '{layerName}.setIcon({markerIcon});'.format(layerName=self._layerName, markerIcon=icon._layerName)
+        self.runJavaScript(js)
+        return self
+
+    def setRotationAngle(self, angle_deg: float):
+        js = '{layerName}.setRotationAngle({angle_deg});'.format(layerName=self._layerName, angle_deg=angle_deg)
+        self.runJavaScript(js)
+        return self
+
+    def setRotationOrigin(self, origin: str):
+        js = '{layerName}.setRotationOrigin({origin});'.format(layerName=self._layerName, origin=origin)
         self.runJavaScript(js)
         return self
