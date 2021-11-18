@@ -53,6 +53,10 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 ```
 
+## Addtional Leaflet Packages
+- Leaflet.draw (Version 0.4.14) - https://github.com/Leaflet/Leaflet.draw
+- Leaflet.RotatedMarker (Version 0.2.0) - https://github.com/bbecquet/Leaflet.RotatedMarker
+
 ## Using Unimplemented Leaflet Features
 At this time, there is noone actively adding features to pyqtlet. This means that there
 are a lot of Leaflet features that are not implemented in pyqtlet. However, there is still
