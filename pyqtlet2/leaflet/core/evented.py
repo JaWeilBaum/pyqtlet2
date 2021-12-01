@@ -27,7 +27,6 @@ class Evented(QObject):
         '''
         super().__init__()
         self._logger = logging.getLogger(__name__)
-        self._logger.setLevel(9)
         self.response = None
         if Evented.mapWidget:
             return

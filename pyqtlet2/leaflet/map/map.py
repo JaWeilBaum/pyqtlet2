@@ -78,7 +78,6 @@ class Map(Evented):
 
         super().__init__(mapWidget)
         self._logger = logging.getLogger(__name__)
-        self._logger.setLevel(9)
         self.options = options
         self._layers = []
         self._controls = []
