@@ -1,7 +1,7 @@
 import os
 import time
 
-from PyQt5.QtCore import QEventLoop, QObject, QUrl, pyqtSignal
+from PyQt5.QtCore import QEventLoop, QObject, Qt, QUrl, pyqtSignal
 from PyQt5.QtWebChannel import QWebChannel
 from PyQt5.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngineSettings, 
                                        QWebEngineScript )
@@ -32,6 +32,7 @@ class MapWidget(QWebEngineView):
         self._channel = QWebChannel()
         self._page.setWebChannel(self._channel)
         self._loadPage()
+        self.setContextMenuPolicy(Qt.NoContextMenu)
 
     def _get_page_path(self):
         return os.path.join(self.base_path, 'web', 'map.html')
