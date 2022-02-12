@@ -1,15 +1,16 @@
-from distutils.core import setup
+from setuptools import setup, find_packages
 
 setup(
     name='pyqtlet2',
+    version='0.5.0',
+    description='Bringing leaflet maps to PyQt',
+    author='Leon Friedmann',
+    author_email='leon.friedmann@tum.de',
+    url='https://github.com/JaWeilBaum/pyqtlet2',
+    keywords='leaflet, pyqt, maps, python, python3',
+    classifiers=[],
     packages=[
         'pyqtlet2',
-        'pyqtlet2.web',
-        'pyqtlet2.web.modules.leaflet_171',
-        'pyqtlet2.web.modules.leaflet_171.images',
-        'pyqtlet2.web.modules.leaflet_draw_414',
-        'pyqtlet2.web.modules.leaflet_draw_414.dist',
-        'pyqtlet2.web.modules.leaflet_draw_414.dist.images',
         'pyqtlet2.leaflet',
         'pyqtlet2.leaflet.control',
         'pyqtlet2.leaflet.core',
@@ -21,27 +22,13 @@ setup(
         'pyqtlet2.leaflet.map',
     ],
     package_data={
-        'pyqtlet2.web': ['*'],
-        'pyqtlet2.web.modules': ['*'],
-        'pyqtlet2.web.modules.leaflet_171': ['*'],
-        'pyqtlet2.web.modules.leaflet_171.images': ['*'],
-        'pyqtlet2.web.modules.leaflet_draw_414': ['*'],
-        'pyqtlet2.web.modules.leaflet_draw_414.src': ['*'],
-        'pyqtlet2.web.modules.leaflet_draw_414.src.edit': ['*'],
-        'pyqtlet2.web.modules.leaflet_draw_414.src.edit.handler': ['*'],
-        'pyqtlet2.web.modules.leaflet_draw_414.src.draw.handler': ['*'],
-        'pyqtlet2.web.modules.leaflet_draw_414.src.ext': ['*'],
-        'pyqtlet2.web.modules.leaflet_draw_414.src.images': ['*'],
-        'pyqtlet2.web.modules.leaflet_draw_414.dist': ['*'],
-        'pyqtlet2.web.modules.leaflet_draw_414.dist.images': ['*'],
+        'pyqtlet2': [
+            'web/map.html',
+            'web/custom.js',
+            'web/modules/*/*',
+            'web/modules/*/images/*',
+        ],
     },
-    version='0.5.0',
-    description='Bringing leaflet maps to PyQt',
-    author='Leon Friedmann',
-    author_email='leon.friedmann@tum.de',
-    url='https://github.com/JaWeilBaum/pyqtlet2',
-    keywords=['leaflet', 'pyqt', 'maps', 'python', 'python3'],
-    classifiers=[],
 )
 
 
