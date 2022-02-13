@@ -2,6 +2,7 @@ from ..layer import Layer
 from ..icon import Icon
 from ...core.Parser import Parser
 from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
+from typing import List
 
 
 class Marker(Layer):
@@ -9,7 +10,7 @@ class Marker(Layer):
     move = pyqtSignal(dict)
     click = pyqtSignal(dict)
 
-    def __init__(self, latLng: list[float], options=None):
+    def __init__(self, latLng: List[float], options=None):
         super().__init__()
         if isinstance(options, type(None)):
             options = {}
