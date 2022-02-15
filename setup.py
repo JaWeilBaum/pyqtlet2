@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='pyqtlet2',
-    version='0.5.0',
+    version='0.6.0',
     description='Bringing leaflet maps to PyQt',
     author='Leon Friedmann',
     author_email='leon.friedmann@tum.de',

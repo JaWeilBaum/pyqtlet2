@@ -75,6 +75,14 @@ For example, if we want to change the marker icon in the above example, add the 
 
 This technique will allow users to use all the features available in leaflet.
 
+## Contributors
+
+A big thank you, goes to all the contributors of this project!
+
+<a href="https://github.com/JaWeilBaum/pyqtlet2/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=JaWeilBaum/pyqtlet2" />
+</a>
+
 ## Contributing
 In terms of contributing, there is a lot of work that still needs to be done. 
 Specifically, there are a lot of leaflet features that need to be ported into pyqtlet. All contributions welcome.
