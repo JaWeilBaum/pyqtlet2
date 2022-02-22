@@ -1,13 +1,15 @@
 import os
 import time
 
-try:
+from . import API
+
+if API == 'PyQt5':
     from PyQt5.QtCore import QEventLoop, QObject, Qt, QUrl, pyqtSignal
     from PyQt5.QtWebChannel import QWebChannel
     from PyQt5.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngineSettings, 
                                        QWebEngineScript )
     Signal = pyqtSignal
-except:
+else:
     from PySide6.QtCore import QEventLoop, QObject, QUrl, Signal, Qt
     from PySide6.QtWebChannel import QWebChannel
     from PySide6.QtWebEngineWidgets import QWebEngineView

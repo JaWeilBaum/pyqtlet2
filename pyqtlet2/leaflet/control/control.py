@@ -3,9 +3,11 @@ import logging
 import os
 import time
 
-try:
+from ... import API
+
+if API == 'PyQt5':
     from PyQt5.QtCore import pyqtSlot, pyqtSignal
-except:
+else:
     from PySide6.QtCore import Slot, Signal
     pyqtSlot = Slot
     pyqtSignal = Signal
