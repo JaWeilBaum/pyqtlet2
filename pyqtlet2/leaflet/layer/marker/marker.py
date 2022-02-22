@@ -1,7 +1,13 @@
 from ..layer import Layer
 from ..icon import Icon
 from ...core.Parser import Parser
-from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
+
+try:
+    from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
+except:
+    from PySide6.QtCore import Slot, Signal, QJsonValue
+    pyqtSlot, pyqtSignal = Slot, Signal
+
 from typing import List
 
 

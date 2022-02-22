@@ -3,7 +3,12 @@ import logging
 import os
 import time
 
-from PyQt5.QtCore import pyqtSlot, pyqtSignal
+try:
+    from PyQt5.QtCore import pyqtSlot, pyqtSignal
+except:
+    from PySide6.QtCore import Slot, Signal
+    pyqtSlot = Slot
+    pyqtSignal = Signal
 
 from ..core import Evented
 

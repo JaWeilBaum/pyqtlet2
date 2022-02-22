@@ -3,7 +3,12 @@ import logging
 import os
 import time
 
-from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
+try:
+    from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
+except:
+    from PySide6.QtCore import Slot, Signal, QJsonValue
+    pyqtSignal = Signal
+    pyqtSlot = Slot
 
 from ... import mapwidget
 from ..core import Evented

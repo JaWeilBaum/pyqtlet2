@@ -1,7 +1,10 @@
 import logging
 import time
 
-from PyQt5.QtCore import QObject, QJsonValue
+try:
+    from PyQt5.QtCore import QObject, QJsonValue
+except:
+    from PySide6.QtCore import QObject, QJsonValue
 
 from ... import mapwidget
 
