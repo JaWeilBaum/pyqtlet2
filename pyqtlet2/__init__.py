@@ -3,7 +3,7 @@ Bringing Leaflet maps to PyQt.
 """
 
 __author__ = 'Leon Friedmann <leon.friedmann@tum.de>'
-__version__ = '0.5.0'
+__version__ = '0.7.0'
 import sys
 
 if 'PySide6' in sys.modules:
