@@ -1,6 +1,6 @@
 # pyqtlet2
 
-pyqtlet is a wrapper for Leaflet maps in PyQt5. In construction and design, it mimics the [official leaflet api](http://leafletjs.com/reference-1.3.0.html) as much as possible.
+pyqtlet is a wrapper for Leaflet maps in PyQt5 or PySide6. In construction and design, it mimics the [official leaflet api](http://leafletjs.com/reference-1.3.0.html) as much as possible.
 
 ## About
 
@@ -9,7 +9,7 @@ This is a fork of the repository pyqtlet from @skylarkdrones. Since the original
 ## Installation
 
 ``` bash
-pip3 install PyQt5
+pip3 install PyQt5 # or pip3 install PySide6
 pip3 install PyQtWebEngine
 pip3 install pyqtlet2
 ```

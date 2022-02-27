@@ -1,7 +1,15 @@
 from ..layer import Layer
 from ..icon import Icon
 from ...core.Parser import Parser
-from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
+
+from .... import API
+
+if API == 'PyQt5':
+    from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
+else:
+    from PySide6.QtCore import Slot, Signal, QJsonValue
+    pyqtSlot, pyqtSignal = Slot, Signal
+
 from typing import List
 
 

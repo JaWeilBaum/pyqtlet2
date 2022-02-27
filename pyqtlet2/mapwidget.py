@@ -1,10 +1,19 @@
 import os
 import time
 
-from PyQt5.QtCore import QEventLoop, QObject, Qt, QUrl, pyqtSignal
-from PyQt5.QtWebChannel import QWebChannel
-from PyQt5.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngineSettings, 
+from . import API
+
+if API == 'PyQt5':
+    from PyQt5.QtCore import QEventLoop, QObject, Qt, QUrl, pyqtSignal
+    from PyQt5.QtWebChannel import QWebChannel
+    from PyQt5.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngineSettings, 
                                        QWebEngineScript )
+    Signal = pyqtSignal
+else:
+    from PySide6.QtCore import QEventLoop, QObject, QUrl, Signal, Qt
+    from PySide6.QtWebChannel import QWebChannel
+    from PySide6.QtWebEngineWidgets import QWebEngineView
+    from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineSettings, QWebEngineScript
 
 
 class MapWidget(QWebEngineView):

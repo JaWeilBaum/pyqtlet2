@@ -11,13 +11,13 @@ Google Earth and KML files for all our mapping needs.
 
 .. note::
     pyqtlet was designed for people familiar with both `PyQt5 <http://zetcode.com/gui/pyqt5/>`_ and `Leaflet <https://leafletjs.com/examples/quick-start/>`_.
-    It is suggested you go through the respective guides if not already familiar.
+    It is suggested you go through the respective guides if not already familiar. PySide6 is also supported.
 
     
 Installation
 ------------
 
-pyqtlet does not have any external dependencies apart from PyQt5. So if you already 
+pyqtlet does not have any external dependencies apart from PyQt5 or PySide6. So if you already 
 have pyqtlet installed, then you just need to copy the pyqtlet folder into your
 project folder. You may also install pyqtlet  from pip. This will install PyQt5 if
 it has not been installed already.
