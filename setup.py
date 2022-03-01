@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='pyqtlet2',
-    version='0.7.0',
+    version='0.7.1',
     description='Bringing leaflet maps to PyQt',
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -35,9 +35,12 @@ setup(
         ],
     },
     install_requires=[
-        'PyQt5==5.15.5',
-        'PyQtWebEngine==5.15.5'
-    ]
+    ],
+    extras_require = {
+        'PyQt5' : ['PyQt5==5.15.5','PyQtWebEngine==5.15.5'],
+        'PySide2': ['PySide2==5.15.2.1'],
+        'PySide6': ['PySide6==6.2.3'],
+    }
 )
 
 

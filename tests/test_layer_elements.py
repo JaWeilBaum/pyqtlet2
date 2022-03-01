@@ -4,6 +4,8 @@ from pyqtlet2 import L, MapWidget, API
 
 if API == 'PyQt5:
     from PyQt5.QtWidgets import QApplication
+elif API == 'PySide2:
+    from PySide2.QtWidgets import QApplication
 else:
     from PyQt6.QtWidgets import QApplication
 

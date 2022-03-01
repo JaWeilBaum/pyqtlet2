@@ -7,6 +7,10 @@ from ... import API
 
 if API == 'PyQt5':
     from PyQt5.QtCore import pyqtSlot, pyqtSignal
+elif API == 'PySide2':
+    from PySide6.QtCore import Slot, Signal
+    pyqtSlot = Slot
+    pyqtSignal = Signal
 else:
     from PySide6.QtCore import Slot, Signal
     pyqtSlot = Slot

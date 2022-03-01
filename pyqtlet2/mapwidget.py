@@ -9,6 +9,12 @@ if API == 'PyQt5':
     from PyQt5.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngineSettings, 
                                        QWebEngineScript )
     Signal = pyqtSignal
+elif API == 'PySide2':
+    from PySide2.QtCore import QEventLoop, QObject, Qt, QUrl, Signal
+    from PySide2.QtWebChannel import QWebChannel
+    from PySide2.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngineSettings, 
+                                       QWebEngineScript )
+
 else:
     from PySide6.QtCore import QEventLoop, QObject, QUrl, Signal, Qt
     from PySide6.QtWebChannel import QWebChannel

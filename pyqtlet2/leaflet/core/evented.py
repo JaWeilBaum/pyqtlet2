@@ -5,6 +5,8 @@ from ... import API, mapwidget
 
 if API == 'PyQt5':
     from PyQt5.QtCore import QObject, QJsonValue
+elif API == 'PySide2':
+    from PySide2.QtCore import QObject, QJsonValue
 else:
     from PySide6.QtCore import QObject, QJsonValue
 
