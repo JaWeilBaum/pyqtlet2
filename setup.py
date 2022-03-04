@@ -5,14 +5,14 @@ with open("README.md", "r") as f:
 
 setup(
     name='pyqtlet2',
-    version='0.7.0',
-    description='Bringing leaflet maps to PyQt',
+    version='0.8.0',
+    description='Bringing leaflet maps to Python Qt bindings',
     long_description=long_description,
     long_description_content_type="text/markdown",
     author='Leon Friedmann',
     author_email='leon.friedmann@tum.de',
     url='https://github.com/JaWeilBaum/pyqtlet2',
-    keywords='leaflet, pyqt, maps, python, python3',
+    keywords='leaflet, qtpy, maps, python, python3',
     classifiers=[],
     packages=[
         'pyqtlet2',
@@ -35,9 +35,14 @@ setup(
         ],
     },
     install_requires=[
-        'PyQt5==5.15.5',
-        'PyQtWebEngine==5.15.5'
+        'QtPy>=2.0.1'
     ]
+    extras_require = {
+        'PyQt5' : ['PyQt5>=5.15.5','PyQtWebEngine>=5.15.5'],
+        'PyQt6' : ['PyQt6>=6.2.0','PyQt6-WebEngine>=6.2.0'],
+        'PySide2': ['PySide2'],
+        'PySide6': ['PySide6']
+    }
 )
 
 

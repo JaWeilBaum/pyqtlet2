@@ -2,21 +2,15 @@ from ..layer import Layer
 from ..icon import Icon
 from ...core.Parser import Parser
 
-from .... import API
-
-if API == 'PyQt5':
-    from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
-else:
-    from PySide6.QtCore import Slot, Signal, QJsonValue
-    pyqtSlot, pyqtSignal = Slot, Signal
+from qtpy.QtCore import Slot, Signal, QJsonValue
 
 from typing import List
 
 
 class Marker(Layer):
-    moveend = pyqtSignal(dict)
-    move = pyqtSignal(dict)
-    click = pyqtSignal(dict)
+    moveend = Signal(dict)
+    move = Signal(dict)
+    click = Signal(dict)
 
     def __init__(self, latLng: List[float], options=None):
         super().__init__()
@@ -31,21 +25,21 @@ class Marker(Layer):
         self._connectEventToSignal('moveend', '_onMoveend')
         self._connectEventToSignal('click', '_click')
 
-    @pyqtSlot(QJsonValue)
+    @Slot(QJsonValue)
     def _onMove(self, event):
         self._logger.debug('marker moved. event: {event}'.format(event=event))
         event = self._qJsonValueToDict(event)
         self.latLng = [event["latlng"]["lat"], event["latlng"]["lng"]]
         self.move.emit(event)
 
-    @pyqtSlot(QJsonValue)
+    @Slot(QJsonValue)
     def _onMoveend(self, event):
         self._logger.debug('marker moved. event: {event}'.format(event=event))
         if self.opacity == 0:
             return
         self.moveend.emit({**self._qJsonValueToDict(event), "latLng": self.latLng, "sender": self})
 
-    @pyqtSlot(QJsonValue)
+    @Slot(QJsonValue)
     def _click(self, event):
         self._logger.debug('marker clicked. event: {event}'.format(event=event))
         if self.opacity == 0:

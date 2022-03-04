@@ -2,10 +2,7 @@ import unittest
 import sys
 from pyqtlet2 import L, MapWidget, API
 
-if API == 'PyQt5:
-    from PyQt5.QtWidgets import QApplication
-else:
-    from PyQt6.QtWidgets import QApplication
+from qtpy.QtCore import Slot, Signal, QJsonValue
 
 app = QApplication(sys.argv)
 

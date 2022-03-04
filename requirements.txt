@@ -1,2 +1,1 @@
-PyQt5==5.15.5
-PyQtWebEngine==5.15.5
+QtPy>=2.0.1

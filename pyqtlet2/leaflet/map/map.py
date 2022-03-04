@@ -3,14 +3,7 @@ import logging
 import os
 import time
 
-from ... import API
-
-if API == 'PyQt5':
-    from PyQt5.QtCore import pyqtSlot, pyqtSignal, QJsonValue
-else:
-    from PySide6.QtCore import Slot, Signal, QJsonValue
-    pyqtSignal = Signal
-    pyqtSlot = Slot
+from qtpy.QtCore import Slot, Signal, QJsonValue
 
 from ... import mapwidget
 from ..core import Evented
@@ -34,9 +27,9 @@ class Map(Evented):
     :param dict options: Options for initiation (optional)
     '''
 
-    clicked = pyqtSignal(dict)
-    zoom = pyqtSignal(dict)
-    drawCreated = pyqtSignal(dict)
+    clicked = Signal(dict)
+    zoom = Signal(dict)
+    drawCreated = Signal(dict)
 
     @property
     def layers(self):
@@ -52,17 +45,17 @@ class Map(Evented):
         '''
         return self._jsName
 
-    @pyqtSlot(QJsonValue)
+    @Slot(QJsonValue)
     def _onClick(self, event):
         self._logger.debug('map clicked. event: {event}'.format(event=event))
         self.clicked.emit(self._qJsonValueToDict(event))
 
-    @pyqtSlot(QJsonValue)
+    @Slot(QJsonValue)
     def _onDrawCreated(self, event):
         self._logger.debug('draw created. event: {event}'.format(event=event))
         self.drawCreated.emit(self._qJsonValueToDict(event))
 
-    @pyqtSlot(QJsonValue)
+    @Slot(QJsonValue)
     def _onZoom(self, event):
         self._logger.debug('map zoom. event: {event}'.format(event=event))
         self.zoom.emit(self._qJsonValueToDict(event))
