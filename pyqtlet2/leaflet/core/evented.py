@@ -1,12 +1,9 @@
 import logging
 import time
 
-from ... import API, mapwidget
+from ... import mapwidget
 
-if API == 'PyQt5':
-    from PyQt5.QtCore import QObject, QJsonValue
-else:
-    from PySide6.QtCore import QObject, QJsonValue
+from qtpy.QtCore import QObject, QJsonValue
 
 
 class Evented(QObject):
