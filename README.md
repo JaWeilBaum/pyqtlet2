@@ -1,18 +1,32 @@
 # pyqtlet2
 
-pyqtlet is a wrapper for Leaflet maps in PyQt5 or PySide6. In construction and design, it mimics the [official leaflet api](http://leafletjs.com/reference-1.3.0.html) as much as possible.
+pyqtlet is a Leaflet map wrapper for Qt bindings. In construction and design, it mimics the [official leaflet api](http://leafletjs.com/reference-1.3.0.html) as much as possible.
 
 ## About
 
-This is a fork of the repository pyqtlet from @skylarkdrones. Since the original repository is not further maintained. Since I find this package very usefull for a map implementation in the QT environment, I want to further develop this package. If you want to extend this package feel free to get in contact with me or create a Issue/Pull Request with a change! 
+This is a fork of the repository pyqtlet from @skylarkdrones. Since the original repository is not further maintained. Since I find this package very useful for a map implementation in the QT environment, I want to further develop this package. If you want to extend this package feel free to get in contact with me or create an Issue/Pull Request with a change! 
 
 ## Installation
 
+You as a user need to specify the Qt package you want to use. Please check [qtpy](https://github.com/spyder-ide/qtpy) to find out which Qt bindings can be used. 
+
+
+
 ``` bash
-pip3 install PyQt5 # or pip3 install PySide6
-pip3 install PyQtWebEngine
-pip3 install pyqtlet2
+pip3 install pyqtlet2[PyQt5]
+# or
+pip3 install pyqtlet2[PySide6]
 ```
+
+If you have multiple Qt bindings installed in your environment, please specify the necessary environment variable inside your code.
+
+``` python 
+import os
+os.environ['QT_API'] = 'pyqt5'
+from qtpy import QtGui
+```
+
+Check if the installation was successful:
 
 ``` bash
 # To test whether it is successfully working
@@ -24,8 +38,10 @@ python3
 ## Usage
 
 ``` python
+import os
 import sys
-from PyQt5.QtWidgets import QApplication, QVBoxLayout, QWidget
+os.environ['QT_API'] = 'pyqt5'
+from qtpy.QtWidgets import QApplication, QVBoxLayout, QWidget
 from pyqtlet2 import L, MapWidget
 
 
@@ -53,12 +69,12 @@ if __name__ == '__main__':
     sys.exit(app.exec_())
 ```
 
-## Addtional Leaflet Packages
+## Additional Leaflet Packages
 - Leaflet.draw (Version 0.4.14) - https://github.com/Leaflet/Leaflet.draw
 - Leaflet.RotatedMarker (Version 0.2.0) - https://github.com/bbecquet/Leaflet.RotatedMarker
 
 ## Using Unimplemented Leaflet Features
-At this time, there is noone actively adding features to pyqtlet. This means that there
+At this time, there is none actively adding features to pyqtlet. This means that there
 are a lot of Leaflet features that are not implemented in pyqtlet. However, there is still
 a way to access these features via the `runJavaScript` api. This allows arbitrary code to
 be run within the map window.
