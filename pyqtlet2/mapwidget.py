@@ -1,19 +1,9 @@
 import os
 import time
 
-from . import API
-
-if API == 'PyQt5':
-    from PyQt5.QtCore import QEventLoop, QObject, Qt, QUrl, pyqtSignal
-    from PyQt5.QtWebChannel import QWebChannel
-    from PyQt5.QtWebEngineWidgets import ( QWebEngineView, QWebEnginePage, QWebEngineSettings, 
-                                       QWebEngineScript )
-    Signal = pyqtSignal
-else:
-    from PySide6.QtCore import QEventLoop, QObject, QUrl, Signal, Qt
-    from PySide6.QtWebChannel import QWebChannel
-    from PySide6.QtWebEngineWidgets import QWebEngineView
-    from PySide6.QtWebEngineCore import QWebEnginePage, QWebEngineSettings, QWebEngineScript
+from qtpy.QtCore import QEventLoop, QObject, Qt, QUrl, Signal
+from qtpy.QtWebChannel import QWebChannel
+from qtpy.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings
 
 
 class MapWidget(QWebEngineView):
@@ -52,5 +42,5 @@ class MapWidget(QWebEngineView):
         init_loop = QEventLoop()
         self._page.loadFinished.connect(init_loop.quit)
         self._page.load(QUrl().fromLocalFile(html_path))
-        init_loop.exec()
+        init_loop.exec_()
 
