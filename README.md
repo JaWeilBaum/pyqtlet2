@@ -13,9 +13,9 @@ You as a user need to specify the Qt package you want to use. Please check [qtpy
 
 
 ``` bash
-pip3 install pyqtlet2[PyQt5]
+pip3 install "pyqtlet2[PyQt5]"
 # or
-pip3 install pyqtlet2[PySide6]
+pip3 install "pyqtlet2[PySide6]"
 ```
 
 If you have multiple Qt bindings installed in your environment, please specify the necessary environment variable inside your code.
