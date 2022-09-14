@@ -30,6 +30,7 @@ class Map(Evented):
     clicked = Signal(dict)
     zoom = Signal(dict)
     drawCreated = Signal(dict)
+    right_mouse_clicked = Signal(dict)
 
     @property
     def layers(self):
@@ -49,6 +50,11 @@ class Map(Evented):
     def _onClick(self, event):
         self._logger.debug('map clicked. event: {event}'.format(event=event))
         self.clicked.emit(self._qJsonValueToDict(event))
+        
+    @Slot(QJsonValue)
+    def _onRightClick(self, event):
+        self._logger.debug('map clicked. event: {event}'.format(event=event))
+        self.right_mouse_clicked.emit(self._qJsonValueToDict(event))
 
     @Slot(QJsonValue)
     def _onDrawCreated(self, event):
@@ -84,6 +90,7 @@ class Map(Evented):
         self._jsName = 'map'
         self._initJs()
         self._connectEventToSignal('click', '_onClick')
+        self._connectEventToSignal('contextmenu', '_onRightClick')
         self._connectEventToSignal('zoom', '_onZoom')
         self._connectEventToSignal('draw:created', '_onDrawCreated')
 
