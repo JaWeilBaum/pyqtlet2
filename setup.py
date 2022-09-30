@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setup(
     name='pyqtlet2',
-    version='0.8.0',
+    version='0.8.1',
     description='Bringing leaflet maps to Python Qt bindings',
     long_description=long_description,
     long_description_content_type="text/markdown",
