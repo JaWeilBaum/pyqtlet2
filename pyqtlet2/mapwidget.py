@@ -1,9 +1,8 @@
 import os
-import time
 
-from qtpy.QtCore import QEventLoop, QObject, Qt, QUrl, Signal
+from qtpy.QtCore import QEventLoop, Qt, QUrl
 from qtpy.QtWebChannel import QWebChannel
-from qtpy.QtWebEngineWidgets import QWebEngineView, QWebEnginePage, QWebEngineSettings
+from qtpy.QtWebEngineWidgets import QWebEngineView, QWebEnginePage
 
 
 class MapWidget(QWebEngineView):

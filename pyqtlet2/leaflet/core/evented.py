@@ -1,5 +1,4 @@
 import logging
-import time
 
 from ... import mapwidget
 
@@ -49,6 +48,7 @@ class Evented(QObject):
     def getMapWidgetAtIndex(self, mapWidgetIndex):
         if len(self.mapWidgets) > mapWidgetIndex:
             return self.mapWidgets[mapWidgetIndex]
+        self._logger.error("No")
         return None
 
     def getJsResponse(self, js, mapWidgetIndex, callback):
@@ -71,8 +71,8 @@ class Evented(QObject):
         '''
         self._logger.debug('Running JS with callback: {js}=>{callback}'.format(
             js=js, callback=callback.__name__))
-        if mapwidget := self.getMapWidgetAtIndex(mapWidgetIndex):
-            self.page.runJavaScript(js, callback)
+        if mapWidget := self.getMapWidgetAtIndex(mapWidgetIndex):
+            mapWidget.page.runJavaScript(js, callback)
         else:
             self._logger.error(f"Can't find mapWidget at index: {mapWidgetIndex}")
 
@@ -86,8 +86,8 @@ class Evented(QObject):
         :param str js: The javascript code
         '''
         self._logger.debug('Running JS: {js}'.format(js=js))
-        if mapwidget := self.getMapWidgetAtIndex(mapWidgetIndex):
-            mapwidget.page.runJavaScript(js)
+        if mapWidget := self.getMapWidgetAtIndex(mapWidgetIndex):
+            mapWidget.page.runJavaScript(js)
         else:
             self._logger.error(f"Can't find mapWidget at index: {mapWidgetIndex}")
 
