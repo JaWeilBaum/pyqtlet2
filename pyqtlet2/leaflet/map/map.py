@@ -7,6 +7,7 @@ from qtpy.QtCore import Slot, Signal, QJsonValue
 
 from ... import mapwidget
 from ..core import Evented
+from ..layer import Layer
 
 
 class Map(Evented):
@@ -31,6 +32,7 @@ class Map(Evented):
     zoom = Signal(dict)
     drawCreated = Signal(dict)
     right_mouse_clicked = Signal(dict)
+    mapWidgetCounter = 0
 
     @property
     def layers(self):
@@ -82,24 +84,26 @@ class Map(Evented):
             Further documentation can be found at the official leaflet API.
         '''
 
-        super().__init__(mapWidget)
+        super().__init__(mapWidget, Map.mapWidgetCounter)
+        self.mapWidgetIndex = Map.mapWidgetCounter
+        Map.mapWidgetCounter += 1
         self._logger = logging.getLogger(__name__)
         self.options = options
         self._layers = []
         self._controls = []
         self._jsName = 'map'
         self._initJs()
-        self._connectEventToSignal('click', '_onClick')
-        self._connectEventToSignal('contextmenu', '_onRightClick')
-        self._connectEventToSignal('zoom', '_onZoom')
-        self._connectEventToSignal('draw:created', '_onDrawCreated')
+        self._connectEventToSignal('click', '_onClick', self.mapWidgetIndex)
+        self._connectEventToSignal('contextmenu', '_onRightClick', self.mapWidgetIndex)
+        self._connectEventToSignal('zoom', '_onZoom', self.mapWidgetIndex)
+        self._connectEventToSignal('draw:created', '_onDrawCreated', self.mapWidgetIndex)
 
     def _initJs(self):
         jsObject = 'L.map("map"'
         if self.options:
             jsObject += ', {options}'.format(options=self._stringifyForJs(self.options))
         jsObject += ')'
-        self._createJsObject(jsObject)
+        self._createJsObject(jsObject, self.mapWidgetIndex)
 
     def setView(self, latLng, zoom=None, options=None):
         js = 'map.setView({latLng}'.format(latLng=latLng)
@@ -108,14 +112,15 @@ class Map(Evented):
         if options:
             js += ', {options}'.format(options=options)
         js += ');'
-        self.runJavaScript(js)
+        self.runJavaScript(js, self.mapWidgetIndex)
         return self
 
-    def addLayer(self, layer):
+    def addLayer(self, layer: Layer):
         self._layers.append(layer)
         layer.map = self
+        layer._initJs()
         js = 'map.addLayer({layerName})'.format(layerName=layer.layerName)
-        self.runJavaScript(js)
+        self.runJavaScript(js, self.mapWidgetIndex)
         return self
 
     def removeLayer(self, layer):

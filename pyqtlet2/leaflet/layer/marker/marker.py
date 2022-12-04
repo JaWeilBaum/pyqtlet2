@@ -20,10 +20,8 @@ class Marker(Layer):
         self.options = options
         self.opacity = options.get('opacity', 1)
         self.draggable = options.get('draggable', False)
-        self._initJs()
-        self._connectEventToSignal('move', '_onMove')
-        self._connectEventToSignal('moveend', '_onMoveend')
-        self._connectEventToSignal('click', '_click')
+        if self._map:
+            self._initJs()
 
     @Slot(QJsonValue)
     def _onMove(self, event):
@@ -51,40 +49,43 @@ class Marker(Layer):
         if self.options:
             leafletJsObject += ', {options}'.format(options=Parser.dict_for_js(self.options))
         leafletJsObject += ')'
-        self._createJsObject(leafletJsObject)
+        self._createJsObject(leafletJsObject, self._map.mapWidgetIndex)
+        self._connectEventToSignal('move', '_onMove', self._map.mapWidgetIndex)
+        self._connectEventToSignal('moveend', '_onMoveend', self._map.mapWidgetIndex)
+        self._connectEventToSignal('click', '_click', self._map.mapWidgetIndex)
 
     def setLatLng(self, latLng):
         self.latLng = latLng
         js = '{layerName}.setLatLng({latLng})'.format(
                 layerName=self._layerName, latLng=latLng)
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
 
     def setOpacity(self, opacity):
         self.opacity = opacity
         js = '{layerName}.setOpacity({opacity})'.format(
                 layerName=self._layerName, opacity=self.opacity)
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
 
     def setDragging(self, draggable):
         self.draggable = draggable
         option = 'enable' if self.draggable else 'disable'
         js = '{layerName}.dragging.{option}();'.format(layerName=self._layerName, option=option)
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
 
     def setIcon(self, icon: Icon):
         js = '{layerName}.setIcon({markerIcon});'.format(layerName=self._layerName, markerIcon=icon._layerName)
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
 
     def setRotationAngle(self, angle_deg: float):
         js = '{layerName}.setRotationAngle({angle_deg});'.format(layerName=self._layerName, angle_deg=angle_deg)
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
 
     def setRotationOrigin(self, origin: str):
         js = '{layerName}.setRotationOrigin({origin});'.format(layerName=self._layerName, origin=origin)
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
