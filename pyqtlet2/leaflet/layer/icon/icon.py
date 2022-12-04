@@ -12,7 +12,8 @@ class Icon(Layer):
         self.icon_found = False
         self.options = options
         self._check_icon_url()
-        self._initJs()
+        if self._map:
+            self._initJs()
 
     def _check_icon_url(self):
         if "http" in self.iconUrl:
@@ -26,4 +27,4 @@ class Icon(Layer):
     def _initJs(self):
         leafletJsObject = 'L.icon({options});'.format(options=Parser.dict_for_js({"iconUrl": self.iconUrl,
                                                                                   **self.options}))
-        self._createJsObject(leafletJsObject)
+        self._createJsObject(leafletJsObject, self._map.mapWidgetIndex)

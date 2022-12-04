@@ -8,7 +8,7 @@ class FeatureGroup(LayerGroup):
 
     def _initJs(self):
         leafletJsObject = 'new L.featureGroup()'
-        self._createJsObject(leafletJsObject)
+        self._createJsObject(leafletJsObject, self._map.mapWidgetIndex)
 
     def createAndAddDrawnLayer(self, drawnLayer, options=None):
         layerType = drawnLayer['layerType']

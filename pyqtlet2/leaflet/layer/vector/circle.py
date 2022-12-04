@@ -12,5 +12,4 @@ class Circle(CircleMarker):
         if self.options:
             leafletJsObject += ', {options}'.format(options=self.options)
         leafletJsObject += ')'
-        self._createJsObject(leafletJsObject)
-
+        self._createJsObject(leafletJsObject, self)

@@ -1,5 +1,4 @@
 import logging
-import time
 
 from ... import mapwidget
 
@@ -11,9 +10,9 @@ class Evented(QObject):
     Base class for all pyqtlet2 objects.
     Handles initiation, as well as all python<->js communication
     '''
-    mapWidget = None
+    mapWidgets = []
 
-    def __init__(self, mapWidget=None):
+    def __init__(self, mapWidget=None, mapWidgetIndex=None):
         '''
         Base class for all pyqtlet2 objects
         Handles initiation, as well as python-Js communication
@@ -28,22 +27,31 @@ class Evented(QObject):
         super().__init__()
         self._logger = logging.getLogger(__name__)
         self.response = None
-        if Evented.mapWidget:
+
+        if isinstance(mapWidgetIndex, type(None)):
             return
+
         if mapWidget is None:
             raise RuntimeError('L.map must be initialised before other pyqtlet2 objects')
         if not issubclass(type(mapWidget), mapwidget.MapWidget):
             raise TypeError(('Expected mapWidget of type pyqtlet2.MapWidget, '
                             'received {type_}'.format(type_=type(mapWidget))))
-        Evented.mapWidget = mapWidget
+        self.mapWidgets.append(mapWidget)
         js = ('var channelObjects = null;'
               'new QWebChannel(qt.webChannelTransport, function(channel) {'
               '    channelObjects = channel.objects;'
               '});')
-        self.runJavaScript(js)
-        self.mapWidget.page.titleChanged.connect(lambda: print('title changed'))
+        self.runJavaScript(js, mapWidgetIndex)
+        if mapWidget := self.getMapWidgetAtIndex(mapWidgetIndex):
+            mapWidget.page.titleChanged.connect(lambda: print('title changed'))
 
-    def getJsResponse(self, js, callback):
+    def getMapWidgetAtIndex(self, mapWidgetIndex):
+        if len(self.mapWidgets) > mapWidgetIndex:
+            return self.mapWidgets[mapWidgetIndex]
+        self._logger.error("No")
+        return None
+
+    def getJsResponse(self, js, mapWidgetIndex, callback):
         '''
         Runs javascript code in the mapWidget and triggers callback.
 
@@ -63,9 +71,12 @@ class Evented(QObject):
         '''
         self._logger.debug('Running JS with callback: {js}=>{callback}'.format(
             js=js, callback=callback.__name__))
-        self.mapWidget.page.runJavaScript(js, callback)
+        if mapWidget := self.getMapWidgetAtIndex(mapWidgetIndex):
+            mapWidget.page.runJavaScript(js, callback)
+        else:
+            self._logger.error(f"Can't find mapWidget at index: {mapWidgetIndex}")
 
-    def runJavaScript(self, js):
+    def runJavaScript(self, js, mapWidgetIndex: int):
         '''
         Runs javascript code in the mapWidget.
 
@@ -75,9 +86,12 @@ class Evented(QObject):
         :param str js: The javascript code
         '''
         self._logger.debug('Running JS: {js}'.format(js=js))
-        self.mapWidget.page.runJavaScript(js)
+        if mapWidget := self.getMapWidgetAtIndex(mapWidgetIndex):
+            mapWidget.page.runJavaScript(js)
+        else:
+            self._logger.error(f"Can't find mapWidget at index: {mapWidgetIndex}")
 
-    def _createJsObject(self, leafletJsObject):
+    def _createJsObject(self, leafletJsObject, mapWidgetIndex):
         '''
         Function to create variables/objects in leaflet in the
         javascript "engine", and registers the object so that it can
@@ -89,12 +103,15 @@ class Evented(QObject):
         # Creates the js object on the mapWidget page
         js = 'var {name} = {jsObject}'.format(name=self.jsName, 
                 jsObject=leafletJsObject)
-        self.runJavaScript(js)
+        self.runJavaScript(js, mapWidgetIndex)
         # register the object in the channel
-        self.mapWidget.channel.registerObject(
-                '{name}Object'.format(name=self.jsName), self)
+        if mapWidget := self.getMapWidgetAtIndex(mapWidgetIndex):
+            mapWidget.channel.registerObject(
+                    '{name}Object'.format(name=self.jsName), self)
+        else:
+            self._logger.error(f"Can't find mapWidget at index: {mapWidgetIndex}")
 
-    def _connectEventToSignal(self, event, signalEmitter):
+    def _connectEventToSignal(self, event, signalEmitter, mapWidgetIndex):
         # We need to delete some keys as they are causing circular structures
         js = '{name}.on("{event}", function(e) {{\
                   delete e.target;\
@@ -102,7 +119,7 @@ class Evented(QObject):
                   e = copyWithoutCircularReferences([e], e);\
                   channelObjects.{name}Object.{signalEmitter}(e)}})'.format(
             name=self.jsName, event=event, signalEmitter=signalEmitter)
-        self.runJavaScript(js)
+        self.runJavaScript(js, mapWidgetIndex)
 
     def _stringifyForJs(self, object_):
         # When passing options to JS, sometimes we need to pass in objects

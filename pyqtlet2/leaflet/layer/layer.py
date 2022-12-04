@@ -1,5 +1,6 @@
 from ..core import Evented
 import logging
+from abc import abstractmethod
 
 class Layer(Evented):
 
@@ -27,6 +28,13 @@ class Layer(Evented):
     def map(self, map_):
         self._map = map_
 
+    @abstractmethod
+    def _initJs(self):
+        raise NotImplemented
+
+    def runJavaScriptForMapIndex(self, js):
+        self.runJavaScript(js, self._map.mapWidgetIndex)
+
     def __init__(self):
         super().__init__()
         self._map = None
@@ -52,12 +60,12 @@ class Layer(Evented):
         if options:
             js += ', {options}'.format(options=self._stringifyForJs(options))
         js += ')'
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
 
     def unbindPopup(self):
         js = '{layerName}.unbindPopup()'.format(layerName=self._layerName)
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
 
     def bindTooltip(self, content, options=None):
@@ -66,12 +74,12 @@ class Layer(Evented):
         if options:
             js += ', {options}'.format(options=self._stringifyForJs(options))
         js += ')'
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
 
     def unbindTooltip(self):
         js = '{layerName}.unbindTooltip()'.format(layerName=self._layerName)
-        self.runJavaScript(js)
+        self.runJavaScriptForMapIndex(js)
         return self
 
 
