@@ -30,7 +30,7 @@ class Layer(Evented):
 
     @abstractmethod
     def _initJs(self):
-        pass
+        raise NotImplemented("_initJs() is not implemented!")
 
     def runJavaScriptForMapIndex(self, js):
         self.runJavaScript(js, self._map.mapWidgetIndex)

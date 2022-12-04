@@ -115,12 +115,15 @@ class Map(Evented):
         self.runJavaScript(js, self.mapWidgetIndex)
         return self
 
+    def runJavaScriptForMap(self, js):
+        self.runJavaScript(js, self.mapWidgetIndex)
+
     def addLayer(self, layer: Layer):
         self._layers.append(layer)
         layer.map = self
         layer._initJs()
         js = 'map.addLayer({layerName})'.format(layerName=layer.layerName)
-        self.runJavaScript(js, self.mapWidgetIndex)
+        self.runJavaScriptForMap(js)
         return self
 
     def removeLayer(self, layer):
@@ -130,14 +133,14 @@ class Map(Evented):
         self._layers.remove(layer)
         layer.map = None
         js = 'map.removeLayer({layerName})'.format(layerName=layer.layerName)
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self
 
     def addControl(self, control):
         self._controls.append(control)
         control.map = self
         js = 'map.addControl({controlName})'.format(controlName=control.controlName)
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self
 
     def removeControl(self, control):
@@ -147,20 +150,23 @@ class Map(Evented):
         self._controls.remove(control)
         control.map = None
         js = 'map.removeControl({controlName})'.format(controlName=control.controlName)
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self
 
+    def getJsresponseForMap(self, js, callback):
+        return self.getJsResponse(js, self.mapWidgetIndex, callback)
+
     def getBounds(self, callback):
-        return self.getJsResponse('map.getBounds()', callback)
+        return self.getJsresponseForMap('map.getBounds()', callback)
 
     def getCenter(self, callback):
-        return self.getJsResponse('map.getCenter()', callback)
+        return self.getJsresponseForMap('map.getCenter()', callback)
 
     def getZoom(self, callback):
-        return self.getJsResponse('map.getZoom()', callback)
+        return self.getJsresponseForMap('map.getZoom()', callback)
 
     def getState(self, callback):
-        return self.getJsResponse('getMapState()', callback)
+        return self.getJsresponseForMap('getMapState()', callback)
 
     def hasLayer(self, layer):
         return layer in self._layers
@@ -170,27 +176,27 @@ class Map(Evented):
         if options:
             js += ', {options}'.format(options=options)
         js += ');'
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self
 
     def setMaxBounds(self, bounds):
         js = 'map.setMaxBounds({bounds})'.format(bounds=bounds)
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self
 
     def fitBounds(self, bounds):
         js = 'map.fitBounds({bounds})'.format(bounds=bounds)
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self
 
     def setMaxZoom(self, zoom):
         js = 'map.setMaxZoom({zoom})'.format(zoom=zoom)
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self
 
     def setMinZoom(self, zoom):
         js = 'map.setMinZoom({zoom})'.format(zoom=zoom)
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self
 
     def panTo(self, latLng, options=None):
@@ -198,7 +204,7 @@ class Map(Evented):
         if options:
             js += ', {options}'.format(options=options)
         js += ');'
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self
 
     def flyTo(self, latLng, zoom=None, options=None):
@@ -208,5 +214,5 @@ class Map(Evented):
         if options:
             js += ', {options}'.format(options=options)
         js += ');'
-        self.runJavaScript(js)
+        self.runJavaScriptForMap(js)
         return self

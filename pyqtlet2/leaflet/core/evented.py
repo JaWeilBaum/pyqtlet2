@@ -51,7 +51,7 @@ class Evented(QObject):
             return self.mapWidgets[mapWidgetIndex]
         return None
 
-    def getJsResponse(self, js, callback):
+    def getJsResponse(self, js, mapWidgetIndex, callback):
         '''
         Runs javascript code in the mapWidget and triggers callback.
 
@@ -71,7 +71,10 @@ class Evented(QObject):
         '''
         self._logger.debug('Running JS with callback: {js}=>{callback}'.format(
             js=js, callback=callback.__name__))
-        self.mapWidget.page.runJavaScript(js, callback)
+        if mapwidget := self.getMapWidgetAtIndex(mapWidgetIndex):
+            self.page.runJavaScript(js, callback)
+        else:
+            self._logger.error(f"Can't find mapWidget at index: {mapWidgetIndex}")
 
     def runJavaScript(self, js, mapWidgetIndex: int):
         '''
@@ -86,7 +89,7 @@ class Evented(QObject):
         if mapwidget := self.getMapWidgetAtIndex(mapWidgetIndex):
             mapwidget.page.runJavaScript(js)
         else:
-            self._logger.error(f'No mapWidget set for index {mapWidgetIndex}')
+            self._logger.error(f"Can't find mapWidget at index: {mapWidgetIndex}")
 
     def _createJsObject(self, leafletJsObject, mapWidgetIndex):
         '''
@@ -106,7 +109,7 @@ class Evented(QObject):
             mapWidget.channel.registerObject(
                     '{name}Object'.format(name=self.jsName), self)
         else:
-            self._logger.error(f"No mapWidget set for Index {mapWidgetIndex}")
+            self._logger.error(f"Can't find mapWidget at index: {mapWidgetIndex}")
 
     def _connectEventToSignal(self, event, signalEmitter, mapWidgetIndex):
         # We need to delete some keys as they are causing circular structures
