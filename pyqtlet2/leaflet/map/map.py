@@ -139,6 +139,7 @@ class Map(Evented):
     def addControl(self, control):
         self._controls.append(control)
         control.map = self
+        control._initJs()
         js = 'map.addControl({controlName})'.format(controlName=control.controlName)
         self.runJavaScriptForMap(js)
         return self
