@@ -28,7 +28,7 @@ class Marker(Layer):
         self._logger.debug('marker moved. event: {event}'.format(event=event))
         event = self._qJsonValueToDict(event)
         self.latLng = [event["latlng"]["lat"], event["latlng"]["lng"]]
-        self.move.emit({**self._qJsonValueToDict(event), "latLng": self.latLng, "sender": self})
+        self.move.emit({**self._qJsonValueToDict(event), "sender": self})
 
     @Slot(QJsonValue)
     def _onMoveend(self, event):
