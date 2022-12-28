@@ -14,7 +14,8 @@ class Draw(Control):
         self.handleFeatureGroup = handleFeatureGroup
         self.featureGroup = None
         self._handleOptions()
-        self._initJs()
+        if self._map:
+            self._initJs()
         if handleFeatureGroup:
             self.addedToMap.connect(self.addDrawnToFeatureGroup)
 
@@ -23,7 +24,7 @@ class Draw(Control):
         if self.options:
             jsObject += '{options}'.format(options=self._stringifyForJs(self.options))
         jsObject += ')'
-        self._createJsObject(jsObject)
+        self._createJsObject(jsObject, self._map.mapWidgetIndex)
 
     def _handleOptions(self):
         # If there are no options, then we want to set the default options

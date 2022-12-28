@@ -42,10 +42,12 @@ class Control(Evented):
 
     def __init__(self):
         super().__init__()
+        self._map = None
         self._controlName = self._getNewControlName()
 
     def addTo(self, map_):
         map_.addControl(self)
+        return self
 
     def removeFrom(self, map_):
         map_.removeControl(self)
