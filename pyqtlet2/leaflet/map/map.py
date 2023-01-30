@@ -124,6 +124,7 @@ class Map(Evented):
         layer._initJs()
         js = 'map.addLayer({layerName})'.format(layerName=layer.layerName)
         self.runJavaScriptForMap(js)
+        layer._initPopupAndTooltip()
         return self
 
     def removeLayer(self, layer):
