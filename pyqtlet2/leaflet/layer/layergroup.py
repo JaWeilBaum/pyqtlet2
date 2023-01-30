@@ -21,6 +21,8 @@ class LayerGroup(Layer):
 
     def addLayer(self, layer):
         self._layers.append(layer)
+        layer.map = self._map
+        layer._initJs()
         js = '{layerGroup}.addLayer({layerName})'.format(layerGroup=self._layerName,
                 layerName=layer._layerName)
         self.runJavaScriptForMapIndex(js)
