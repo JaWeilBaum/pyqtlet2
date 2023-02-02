@@ -31,4 +31,7 @@ class FeatureGroup(LayerGroup):
             coords = drawnLayer['layer']['_latlng']
             radius = drawnLayer['layer']['options']['radius']
             self.addLayer(vector.Circle([coords['lat'], coords['lng']], radius))
+        elif layerType == 'circlemarker':
+            coords = drawnLayer['layer']['_latlng']
+            self.addLayer(vector.CircleMarker([coords['lat'], coords['lng']]))
             
