@@ -39,5 +39,5 @@ class LayerGroup(Layer):
         self.runJavaScriptForMapIndex(js)
     
     def toGeoJSON(self, callback):
-        self.getJsResponse('{layer}.toGeoJSON()'.format(layer=self.jsName), callback)
+        self.getJsResponseForMapIndex(f'{self.jsName}.toGeoJSON()', callback)
 

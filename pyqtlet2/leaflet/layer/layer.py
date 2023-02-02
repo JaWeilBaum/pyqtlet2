@@ -36,6 +36,10 @@ class Layer(Evented):
         if self._map is not None:
             self.runJavaScript(js, self._map.mapWidgetIndex)
 
+    def getJsResponseForMapIndex(self, js, callback):
+        if self._map is not None:
+            self.getJsResponse(js, self._map.mapWidgetIndex, callback)
+
     def __init__(self):
         super().__init__()
         self._map = None
